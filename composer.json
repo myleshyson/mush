@@ -1,0 +1,16 @@
+{
+    "name": "myleshyson/fusion",
+    "description": "A simple tool to manage AI guideline configurations",
+    "autoload": {
+        "psr-4": {
+            "Myleshyson\\Fusion\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Myles Hyson",
+            "email": "myleshyson@ufl.edu"
+        }
+    ],
+    "require": {}
+}
