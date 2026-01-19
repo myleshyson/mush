@@ -176,6 +176,39 @@ Configure MCP (Model Context Protocol) servers in `.fusion/mcp.json`:
 
 Fusion transforms this configuration to each agent's expected format.
 
+### Local Overrides
+
+For personal MCP servers that shouldn't be committed (local databases, personal API tokens), create `.fusion/mcp.override.json`:
+
+```json
+{
+  "servers": {
+    "github": {
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "my-personal-token"
+      }
+    },
+    "local-db": {
+      "command": ["npx", "-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "postgres://localhost/mydevdb"
+      }
+    }
+  }
+}
+```
+
+Override servers completely replace matching servers from `mcp.json`. This file is automatically added to `.gitignore` during `fusion install`.
+
+For personal guidelines or skills, simply add files to `.fusion/guidelines/` or `.fusion/skills/` and add their paths to `.gitignore`:
+
+```gitignore
+# Personal fusion config
+.fusion/guidelines/my-preferences.md
+.fusion/skills/my-snippets/
+```
+
 ## Commands
 
 ### `fusion install`

@@ -6,6 +6,7 @@ use Myleshyson\Fusion\Compilers\GuidelinesCompiler;
 use Myleshyson\Fusion\Compilers\SkillsCompiler;
 use Myleshyson\Fusion\Support\AgentFactory;
 use Myleshyson\Fusion\Support\GitignoreUpdater;
+use Myleshyson\Fusion\Support\McpConfigReader;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -68,7 +69,7 @@ class InstallCommand extends Command
         $content = $this->formatOutput($guidelines, $skills);
 
         // Read MCP config
-        $mcpConfig = $this->readMcpConfig($fusionPath);
+        $mcpConfig = McpConfigReader::read($fusionPath);
 
         // Write to each selected agent's paths
         $agents = AgentFactory::fromOptionNames($selectedAgents, $workingDirectory);
@@ -88,6 +89,7 @@ class InstallCommand extends Command
 
         // Update .gitignore
         $gitignoreUpdater = new GitignoreUpdater($workingDirectory);
+        $writtenPaths[] = '.fusion/mcp.override.json'; // Always gitignore local overrides
         $gitignoreUpdater->addPaths($writtenPaths);
 
         $output->writeln('<info>Fusion initialized successfully!</info>');
@@ -186,29 +188,5 @@ class InstallCommand extends Command
         $output .= "\n</fusion-guidelines>\n";
 
         return $output;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    protected function readMcpConfig(string $fusionPath): array
-    {
-        $mcpPath = $fusionPath.'/mcp.json';
-        if (! file_exists($mcpPath)) {
-            return [];
-        }
-
-        $content = file_get_contents($mcpPath);
-        if ($content === false) {
-            return [];
-        }
-
-        $config = json_decode($content, true);
-        if (! is_array($config)) {
-            return [];
-        }
-
-        /** @var array<string, mixed> */
-        return $config['servers'] ?? [];
     }
 }
