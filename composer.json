@@ -28,12 +28,14 @@
     "laravel/pint": "^1.27",
     "pestphp/pest": "^4.3",
     "symfony/var-dumper": "^8.0",
-    "zenstruck/console-test": "^1.8"
+    "zenstruck/console-test": "^1.8",
+    "mockery/mockery": "^1.6"
   },
   "scripts": {
     "pint": "pint",
     "phpstan": "phpstan",
-    "pest": "pest"
+    "pest": "pest",
+    "build": "@php build.php"
   },
   "config": {
     "allow-plugins": {

@@ -1,0 +1,352 @@
+[00:01:28] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/builder/extension
+[00:01:28] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/doctor/item
+[00:01:28] [D] argv: ./spc craft
+[00:01:28] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/builder/extension
+[00:01:28] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/doctor/item
+[00:01:28] [D] Setting env: PATH=/Users/myleshyson/code/fusion/buildroot/bin:/Users/myleshyson/code/fusion/vendor/bin:/Users/myleshyson/google-cloud-sdk/bin:/Users/myleshyson/Library/pnpm:/Users/myleshyson/.pyenv/shims:/Users/myleshyson/.composer/vendor/bin:/Users/myleshyson/go/bin:/Users/myleshyson/.bun/bin:/opt/homebrew/opt/nvm/versions/node/v24.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/myleshyson/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/myleshyson/.mint/bin:/Users/myleshyson/.opencode/bin:/opt/homebrew/opt/bison/bin:/Users/myleshyson/bin:/Users/myleshyson/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Users/myleshyson/.cargo/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/myleshyson/Library/Application Support/JetBrains/Toolbox/scripts:/Users/myleshyson/.orbstack/bin
+[00:01:28] [D] Setting env: PATH=/Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/bin:/Users/myleshyson/code/fusion/buildroot/bin:/Users/myleshyson/code/fusion/vendor/bin:/Users/myleshyson/google-cloud-sdk/bin:/Users/myleshyson/Library/pnpm:/Users/myleshyson/.pyenv/shims:/Users/myleshyson/.composer/vendor/bin:/Users/myleshyson/go/bin:/Users/myleshyson/.bun/bin:/opt/homebrew/opt/nvm/versions/node/v24.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/myleshyson/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/myleshyson/.mint/bin:/Users/myleshyson/.opencode/bin:/opt/homebrew/opt/bison/bin:/Users/myleshyson/bin:/Users/myleshyson/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Users/myleshyson/.cargo/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/myleshyson/Library/Application Support/JetBrains/Toolbox/scripts:/Users/myleshyson/.orbstack/bin
+[00:01:28] [D] Setting env: PKG_CONFIG_PATH=/Users/myleshyson/code/fusion/buildroot/lib/pkgconfig:/opt/homebrew/opt/icu4c/lib/pkgconfig:
+[00:01:28] [D] Setting env: SPC_CONCURRENCY=10
+[00:01:28] [D] Setting env: SPC_SKIP_PHP_VERSION_CHECK=no
+[00:01:28] [D] Setting env: SPC_SKIP_DOCTOR_CHECK_ITEMS=
+[00:01:28] [D] Setting env: SPC_CMD_VAR_FRANKENPHP_XCADDY_MODULES=--with github.com/dunglas/mercure/caddy --with github.com/dunglas/vulcain/caddy --with github.com/dunglas/caddy-cbrotli
+[00:01:28] [D] Setting env: PHP_BUILD_PROVIDER=static-php-cli 2.7.11
+[00:01:28] [D] Setting env: SPC_TARGET=native-macos
+[00:01:28] [D] Setting env: CC=clang
+[00:01:28] [D] Setting env: CXX=clang++
+[00:01:28] [D] Setting env: AR=ar
+[00:01:28] [D] Setting env: LD=ld
+[00:01:28] [D] Setting env: SPC_DEFAULT_C_FLAGS=--target=arm64-apple-darwin -Os
+[00:01:28] [D] Setting env: SPC_DEFAULT_CXX_FLAGS=--target=arm64-apple-darwin -Os
+[00:01:28] [D] Setting env: SPC_DEFAULT_LD_FLAGS=
+[00:01:28] [D] Setting env: SPC_MICRO_PATCHES=cli_checks,macos_iconv
+[00:01:28] [D] Setting env: SPC_CMD_PREFIX_PHP_BUILDCONF=./buildconf --force
+[00:01:28] [D] Setting env: SPC_CMD_PREFIX_PHP_CONFIGURE=./configure --prefix= --with-valgrind=no --enable-shared=no --enable-static=yes --disable-all --disable-phpdbg
+[00:01:28] [D] Setting env: SPC_CMD_VAR_PHP_EMBED_TYPE=static
+[00:01:28] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fpic -fpie -Werror=unknown-warning-option 
+[00:01:28] [D] Setting env: MACOSX_DEPLOYMENT_TARGET=12.0
+[00:01:28] [D] Setting env: SPC_LINUX_DEFAULT_CC=clang
+[00:01:28] [D] Setting env: SPC_LINUX_DEFAULT_CXX=clang++
+[00:01:28] [D] Setting env: SPC_LINUX_DEFAULT_AR=ar
+[00:01:28] [D] Setting env: SPC_LINUX_DEFAULT_LD=ld
+[00:01:28] [D] Setting env: SPC_TOOLCHAIN=SPC\toolchain\ClangNativeToolchain
+[00:01:28] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fpic -fpie -Werror=unknown-warning-option --target=arm64-apple-darwin -Os
+[00:01:28] [D] Setting env: SPC_SKIP_TOOLCHAIN_CHECK=yes
+[00:01:28] [D] argv: ./spc doctor --no-motd --preserve-log --auto-fix
+[00:01:28] [D] Making new directory recursive: /Users/myleshyson/code/fusion/downloads
+[00:01:28] [D] Lock file does not exist: /Users/myleshyson/code/fusion/downloads/.lock.json, initializing empty lock file.
+[00:01:28] [D] finding pkg-config-aarch64-macos from github releases assets
+[00:01:28] [D] no github token found, skip
+[00:01:28] [D] Running command (no output) : curl -sfSL    "https://api.github.com/repos/static-php/static-php-cli-hosted/releases"
+[00:01:30] [D] Found 2025.7.23 releases assets
+[00:01:30] [D] Downloading https://api.github.com/repos/static-php/static-php-cli-hosted/releases/assets/341329894
+[00:01:30] [D] no github token found, skip
+[00:01:30] [D] [PASSTHRU] curl -sfSL  -o "/Users/myleshyson/code/fusion/downloads/pkg-config-aarch64-darwin.txz"  "-HAccept: application/octet-stream" "https://api.github.com/repos/static-php/static-php-cli-hosted/releases/assets/341329894"
+[00:01:30] [D] Locking pkg-config-aarch64-darwin.txz
+[00:01:30] [I] Extracting pkg-config-aarch64-macos package to /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos ...
+[00:01:30] [D] Making new directory recursive: /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin
+[00:01:30] [D] Extracting source [archive]: /Users/myleshyson/code/fusion/downloads/pkg-config-aarch64-darwin.txz
+[00:01:30] [D] Making new directory recursive: /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos
+[00:01:30] [D] [PASSTHRU] tar -xf /Users/myleshyson/code/fusion/downloads/pkg-config-aarch64-darwin.txz -C /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos --strip-components 1
+[00:01:31] [D] scanning directory /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos
+[00:01:31] [D] scanning directory /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos/bin
+[00:01:31] [D] scanning directory /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos/source-licenses
+[00:01:31] [D] scanning directory /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos/source-licenses/pkg-config
+[00:01:31] [D] Making new directory recursive: /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/bin
+[00:01:31] [D] Moving package [pkg-config-aarch64-macos] file bin/pkg-config to /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/bin/pkg-config
+[00:01:31] [D] Removing path recursively: "/Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos"
+[00:01:31] [D] scanning directory /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos
+[00:01:31] [D] Removing path recursively: "/Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos/bin"
+[00:01:31] [D] scanning directory /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos/bin
+[00:01:31] [D] Removing path recursively: "/Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos/source-licenses"
+[00:01:31] [D] scanning directory /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos/source-licenses
+[00:01:31] [D] Removing path recursively: "/Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos/source-licenses/pkg-config"
+[00:01:31] [D] scanning directory /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/pkg-config-aarch64-macos/source-licenses/pkg-config
+[00:01:31] [D] [EXEC] /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/bin/pkg-config --version
+[00:01:31] [D] [EXEC] /opt/homebrew/bin/bison --version
+[00:01:31] [D] [EXEC] re2c --version
+[00:01:31] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/builder/extension
+[00:01:31] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/doctor/item
+[00:01:31] [D] Setting env: PATH=/Users/myleshyson/code/fusion/buildroot/bin:/Users/myleshyson/code/fusion/vendor/bin:/Users/myleshyson/google-cloud-sdk/bin:/Users/myleshyson/Library/pnpm:/Users/myleshyson/.pyenv/shims:/Users/myleshyson/.composer/vendor/bin:/Users/myleshyson/go/bin:/Users/myleshyson/.bun/bin:/opt/homebrew/opt/nvm/versions/node/v24.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/myleshyson/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/myleshyson/.mint/bin:/Users/myleshyson/.opencode/bin:/opt/homebrew/opt/bison/bin:/Users/myleshyson/bin:/Users/myleshyson/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Users/myleshyson/.cargo/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/myleshyson/Library/Application Support/JetBrains/Toolbox/scripts:/Users/myleshyson/.orbstack/bin
+[00:01:31] [D] Setting env: PATH=/Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/bin:/Users/myleshyson/code/fusion/buildroot/bin:/Users/myleshyson/code/fusion/vendor/bin:/Users/myleshyson/google-cloud-sdk/bin:/Users/myleshyson/Library/pnpm:/Users/myleshyson/.pyenv/shims:/Users/myleshyson/.composer/vendor/bin:/Users/myleshyson/go/bin:/Users/myleshyson/.bun/bin:/opt/homebrew/opt/nvm/versions/node/v24.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/myleshyson/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/myleshyson/.mint/bin:/Users/myleshyson/.opencode/bin:/opt/homebrew/opt/bison/bin:/Users/myleshyson/bin:/Users/myleshyson/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Users/myleshyson/.cargo/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/myleshyson/Library/Application Support/JetBrains/Toolbox/scripts:/Users/myleshyson/.orbstack/bin
+[00:01:31] [D] Setting env: PKG_CONFIG_PATH=/Users/myleshyson/code/fusion/buildroot/lib/pkgconfig:/opt/homebrew/opt/icu4c/lib/pkgconfig:
+[00:01:31] [D] Setting env: SPC_CONCURRENCY=10
+[00:01:31] [D] Setting env: SPC_SKIP_PHP_VERSION_CHECK=no
+[00:01:31] [D] Setting env: SPC_SKIP_DOCTOR_CHECK_ITEMS=
+[00:01:31] [D] Setting env: SPC_CMD_VAR_FRANKENPHP_XCADDY_MODULES=--with github.com/dunglas/mercure/caddy --with github.com/dunglas/vulcain/caddy --with github.com/dunglas/caddy-cbrotli
+[00:01:31] [D] Setting env: PHP_BUILD_PROVIDER=static-php-cli 2.7.11
+[00:01:31] [D] Setting env: SPC_TARGET=native-macos
+[00:01:31] [D] Setting env: CC=clang
+[00:01:31] [D] Setting env: CXX=clang++
+[00:01:31] [D] Setting env: AR=ar
+[00:01:31] [D] Setting env: LD=ld
+[00:01:31] [D] Setting env: SPC_DEFAULT_C_FLAGS=--target=arm64-apple-darwin -Os
+[00:01:31] [D] Setting env: SPC_DEFAULT_CXX_FLAGS=--target=arm64-apple-darwin -Os
+[00:01:31] [D] Setting env: SPC_DEFAULT_LD_FLAGS=
+[00:01:31] [D] Setting env: SPC_MICRO_PATCHES=cli_checks,macos_iconv
+[00:01:31] [D] Setting env: SPC_CMD_PREFIX_PHP_BUILDCONF=./buildconf --force
+[00:01:31] [D] Setting env: SPC_CMD_PREFIX_PHP_CONFIGURE=./configure --prefix= --with-valgrind=no --enable-shared=no --enable-static=yes --disable-all --disable-phpdbg
+[00:01:31] [D] Setting env: SPC_CMD_VAR_PHP_EMBED_TYPE=static
+[00:01:31] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fpic -fpie -Werror=unknown-warning-option 
+[00:01:31] [D] Setting env: MACOSX_DEPLOYMENT_TARGET=12.0
+[00:01:31] [D] Setting env: SPC_LINUX_DEFAULT_CC=clang
+[00:01:31] [D] Setting env: SPC_LINUX_DEFAULT_CXX=clang++
+[00:01:31] [D] Setting env: SPC_LINUX_DEFAULT_AR=ar
+[00:01:31] [D] Setting env: SPC_LINUX_DEFAULT_LD=ld
+[00:01:31] [D] Setting env: SPC_TOOLCHAIN=SPC\toolchain\ClangNativeToolchain
+[00:01:31] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fpic -fpie -Werror=unknown-warning-option --target=arm64-apple-darwin -Os
+[00:01:31] [D] Setting env: SPC_SKIP_TOOLCHAIN_CHECK=yes
+[00:01:31] [D] argv: ./spc download --no-motd --preserve-log --for-extensions=ctype,dom,filter,iconv,mbstring,phar,posix,tokenizer,pcntl --with-php=8.4 --prefer-pre-built --ignore-cache-sources=php-src
+[00:01:31] [D] Setting env: SPC_DOWNLOAD_RETRIES=0
+[00:01:31] [D] finding static-php/static-php-cli-hosted from github releases assets
+[00:01:31] [D] no github token found, skip
+[00:01:31] [D] Running command (no output) : curl -sfSL    "https://api.github.com/repos/static-php/static-php-cli-hosted/releases"
+[00:01:31] [D] Found 2025.7.23 releases assets
+[00:01:31] [D] Dir /Users/myleshyson/code/fusion/downloads already exists, ignored
+[00:01:31] [I] [1/9] Downloading source micro
+[00:01:31] [D] cloning micro source
+[00:01:31] [D] [PASSTHRU] git clone -q --quiet --config core.autocrlf=false --branch "master"  --recursive "https://github.com/static-php/phpmicro" "/Users/myleshyson/code/fusion/downloads/micro"
+[00:01:32] [D] Locking git source micro
+[00:01:32] [D] Finding pre-built asset libiconv-aarch64-darwin.txz
+[00:01:32] [I] [2/9] Downloading pre-built content libiconv
+[00:01:32] [D] Downloading https://github.com/static-php/static-php-cli-hosted/releases/download/2025.7.23/libiconv-aarch64-darwin.txz
+[00:01:32] [D] [PASSTHRU] curl -sfSL  -o "/Users/myleshyson/code/fusion/downloads/libiconv-aarch64-darwin.txz"   "https://github.com/static-php/static-php-cli-hosted/releases/download/2025.7.23/libiconv-aarch64-darwin.txz"
+[00:01:33] [D] Locking libiconv-aarch64-darwin.txz
+[00:01:33] [D] Finding pre-built asset xz-aarch64-darwin.txz
+[00:01:33] [I] [3/9] Downloading pre-built content xz
+[00:01:33] [D] Downloading https://github.com/static-php/static-php-cli-hosted/releases/download/2025.7.23/xz-aarch64-darwin.txz
+[00:01:33] [D] [PASSTHRU] curl -sfSL  -o "/Users/myleshyson/code/fusion/downloads/xz-aarch64-darwin.txz"   "https://github.com/static-php/static-php-cli-hosted/releases/download/2025.7.23/xz-aarch64-darwin.txz"
+[00:01:33] [D] Locking xz-aarch64-darwin.txz
+[00:01:33] [D] Finding pre-built asset zlib-aarch64-darwin.txz
+[00:01:33] [I] [4/9] Downloading pre-built content zlib
+[00:01:33] [D] Downloading https://github.com/static-php/static-php-cli-hosted/releases/download/2025.7.23/zlib-aarch64-darwin.txz
+[00:01:33] [D] [PASSTHRU] curl -sfSL  -o "/Users/myleshyson/code/fusion/downloads/zlib-aarch64-darwin.txz"   "https://github.com/static-php/static-php-cli-hosted/releases/download/2025.7.23/zlib-aarch64-darwin.txz"
+[00:01:34] [D] Locking zlib-aarch64-darwin.txz
+[00:01:34] [I] [5/9] Downloading source libxml2
+[00:01:34] [D] finding libxml2 source from github tags tarball
+[00:01:34] [D] no github token found, skip
+[00:01:34] [D] Running command (no output) : curl -sfSL    "https://api.github.com/repos/GNOME/libxml2/tags"
+[00:01:34] [D] no github token found, skip
+[00:01:34] [D] Running command (no output) : curl -sfSL  -I  "https://api.github.com/repos/GNOME/libxml2/tarball/refs/tags/v2.15.1"
+[00:01:34] [D] Downloading https://api.github.com/repos/GNOME/libxml2/tarball/refs/tags/v2.15.1
+[00:01:34] [D] no github token found, skip
+[00:01:34] [D] [PASSTHRU] curl -sfSL  -o "/Users/myleshyson/code/fusion/downloads/GNOME-libxml2-v2.15.1-0-gb7fa62c.tar.gz"   "https://api.github.com/repos/GNOME/libxml2/tarball/refs/tags/v2.15.1"
+[00:01:35] [D] Locking GNOME-libxml2-v2.15.1-0-gb7fa62c.tar.gz
+[00:01:35] [I] [6/9] Downloading source frankenphp
+[00:01:35] [D] finding frankenphp source from github releases tarball
+[00:01:35] [D] no github token found, skip
+[00:01:35] [D] Running command (no output) : curl -sfSL    "https://api.github.com/repos/php/frankenphp/releases"
+[00:01:36] [D] no github token found, skip
+[00:01:36] [D] Running command (no output) : curl -sfSL  -I  "https://api.github.com/repos/php/frankenphp/tarball/v1.11.1"
+[00:01:37] [D] Downloading https://api.github.com/repos/php/frankenphp/tarball/v1.11.1
+[00:01:37] [D] no github token found, skip
+[00:01:37] [D] [PASSTHRU] curl -sfSL  -o "/Users/myleshyson/code/fusion/downloads/php-frankenphp-caddy-v1.11.1-0-g57c58fa.tar.gz"   "https://api.github.com/repos/php/frankenphp/tarball/v1.11.1"
+[00:01:37] [D] Locking php-frankenphp-caddy-v1.11.1-0-g57c58fa.tar.gz
+[00:01:37] [D] Finding pre-built asset brotli-aarch64-darwin.txz
+[00:01:37] [I] [7/9] Downloading pre-built content brotli
+[00:01:37] [D] Downloading https://github.com/static-php/static-php-cli-hosted/releases/download/2025.7.23/brotli-aarch64-darwin.txz
+[00:01:37] [D] [PASSTHRU] curl -sfSL  -o "/Users/myleshyson/code/fusion/downloads/brotli-aarch64-darwin.txz"   "https://github.com/static-php/static-php-cli-hosted/releases/download/2025.7.23/brotli-aarch64-darwin.txz"
+[00:01:38] [D] Locking brotli-aarch64-darwin.txz
+[00:01:38] [I] [8/9] Downloading source watcher
+[00:01:38] [D] finding watcher source from github releases tarball
+[00:01:38] [D] no github token found, skip
+[00:01:38] [D] Running command (no output) : curl -sfSL    "https://api.github.com/repos/e-dant/watcher/releases"
+[00:01:39] [D] no github token found, skip
+[00:01:39] [D] Running command (no output) : curl -sfSL  -I  "https://api.github.com/repos/e-dant/watcher/tarball/0.14.3"
+[00:01:39] [D] Downloading https://api.github.com/repos/e-dant/watcher/tarball/0.14.3
+[00:01:39] [D] no github token found, skip
+[00:01:39] [D] [PASSTHRU] curl -sfSL  -o "/Users/myleshyson/code/fusion/downloads/e-dant-watcher-release-0.14.3-0-gc28e907.tar.gz"   "https://api.github.com/repos/e-dant/watcher/tarball/0.14.3"
+[00:01:40] [D] Locking e-dant-watcher-release-0.14.3-0-gc28e907.tar.gz
+[00:01:40] [I] [9/9] Downloading source php-src
+[00:01:40] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/store/source
+[00:01:40] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/store/pkg
+[00:01:40] [D] Running command (no output) : curl -sfSL    "https://www.php.net/releases/index.php?json&version=8.4"
+[00:01:40] [D] Downloading https://www.php.net/distributions/php-8.4.17.tar.xz
+[00:01:40] [D] [PASSTHRU] curl -sfSL  -o "/Users/myleshyson/code/fusion/downloads/php-8.4.17.tar.xz"   "https://www.php.net/distributions/php-8.4.17.tar.xz"
+[00:01:41] [D] Locking php-8.4.17.tar.xz
+[00:01:41] [I] Download complete, used 10.815 s !
+[00:01:41] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/builder/extension
+[00:01:41] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/doctor/item
+[00:01:41] [D] argv: ./spc build --no-motd --preserve-log ctype,dom,filter,iconv,mbstring,phar,posix,tokenizer,pcntl --with-libs= --build-shared= --build-micro
+[00:01:41] [D] Setting env: PATH=/Users/myleshyson/code/fusion/buildroot/bin:/Users/myleshyson/code/fusion/vendor/bin:/Users/myleshyson/google-cloud-sdk/bin:/Users/myleshyson/Library/pnpm:/Users/myleshyson/.pyenv/shims:/Users/myleshyson/.composer/vendor/bin:/Users/myleshyson/go/bin:/Users/myleshyson/.bun/bin:/opt/homebrew/opt/nvm/versions/node/v24.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/myleshyson/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/myleshyson/.mint/bin:/Users/myleshyson/.opencode/bin:/opt/homebrew/opt/bison/bin:/Users/myleshyson/bin:/Users/myleshyson/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Users/myleshyson/.cargo/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/myleshyson/Library/Application Support/JetBrains/Toolbox/scripts:/Users/myleshyson/.orbstack/bin
+[00:01:41] [D] Setting env: PATH=/Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/bin:/Users/myleshyson/code/fusion/buildroot/bin:/Users/myleshyson/code/fusion/vendor/bin:/Users/myleshyson/google-cloud-sdk/bin:/Users/myleshyson/Library/pnpm:/Users/myleshyson/.pyenv/shims:/Users/myleshyson/.composer/vendor/bin:/Users/myleshyson/go/bin:/Users/myleshyson/.bun/bin:/opt/homebrew/opt/nvm/versions/node/v24.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/myleshyson/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/myleshyson/.mint/bin:/Users/myleshyson/.opencode/bin:/opt/homebrew/opt/bison/bin:/Users/myleshyson/bin:/Users/myleshyson/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Users/myleshyson/.cargo/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/myleshyson/Library/Application Support/JetBrains/Toolbox/scripts:/Users/myleshyson/.orbstack/bin
+[00:01:41] [D] Setting env: PKG_CONFIG_PATH=/Users/myleshyson/code/fusion/buildroot/lib/pkgconfig:/opt/homebrew/opt/icu4c/lib/pkgconfig:
+[00:01:41] [D] Setting env: SPC_CONCURRENCY=10
+[00:01:41] [D] Setting env: SPC_SKIP_PHP_VERSION_CHECK=no
+[00:01:41] [D] Setting env: SPC_SKIP_DOCTOR_CHECK_ITEMS=
+[00:01:41] [D] Setting env: SPC_CMD_VAR_FRANKENPHP_XCADDY_MODULES=--with github.com/dunglas/mercure/caddy --with github.com/dunglas/vulcain/caddy --with github.com/dunglas/caddy-cbrotli
+[00:01:41] [D] Setting env: PHP_BUILD_PROVIDER=static-php-cli 2.7.11
+[00:01:41] [D] Setting env: SPC_TARGET=native-macos
+[00:01:41] [D] Setting env: CC=clang
+[00:01:41] [D] Setting env: CXX=clang++
+[00:01:41] [D] Setting env: AR=ar
+[00:01:41] [D] Setting env: LD=ld
+[00:01:41] [D] Setting env: SPC_DEFAULT_C_FLAGS=--target=arm64-apple-darwin -Os
+[00:01:41] [D] Setting env: SPC_DEFAULT_CXX_FLAGS=--target=arm64-apple-darwin -Os
+[00:01:41] [D] Setting env: SPC_DEFAULT_LD_FLAGS=
+[00:01:41] [D] Setting env: SPC_MICRO_PATCHES=cli_checks,macos_iconv
+[00:01:41] [D] Setting env: SPC_CMD_PREFIX_PHP_BUILDCONF=./buildconf --force
+[00:01:41] [D] Setting env: SPC_CMD_PREFIX_PHP_CONFIGURE=./configure --prefix= --with-valgrind=no --enable-shared=no --enable-static=yes --disable-all --disable-phpdbg
+[00:01:41] [D] Setting env: SPC_CMD_VAR_PHP_EMBED_TYPE=static
+[00:01:41] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fpic -fpie -Werror=unknown-warning-option 
+[00:01:41] [D] Setting env: MACOSX_DEPLOYMENT_TARGET=12.0
+[00:01:41] [D] Setting env: SPC_LINUX_DEFAULT_CC=clang
+[00:01:41] [D] Setting env: SPC_LINUX_DEFAULT_CXX=clang++
+[00:01:41] [D] Setting env: SPC_LINUX_DEFAULT_AR=ar
+[00:01:41] [D] Setting env: SPC_LINUX_DEFAULT_LD=ld
+[00:01:41] [D] Setting env: SPC_TOOLCHAIN=SPC\toolchain\ClangNativeToolchain
+[00:01:41] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fpic -fpie -Werror=unknown-warning-option --target=arm64-apple-darwin -Os
+[00:01:41] [D] Setting env: PKG_CONFIG=/Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/bin/pkg-config
+[00:01:41] [D] [EXEC] clang --version
+[00:01:41] [D] Setting env: PHP_BUILD_COMPILER=clang 17.0.0
+[00:01:41] [D] Setting env: BISON=/opt/homebrew/opt/bison/bin/bison
+[00:01:41] [D] Setting env: YACC=/opt/homebrew/opt/bison/bin/yacc
+[00:01:41] [D] Making new directory recursive: /Users/myleshyson/code/fusion/buildroot/lib/pkgconfig
+[00:01:41] [D] Making new directory recursive: /Users/myleshyson/code/fusion/buildroot/include
+[00:01:41] [D] Init var [PATH]:                                  /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/bin:/Users/myleshyson/code/fusion/buildroot/bin:/Users/myleshyson/code/fusion/vendor/bin:/Users/myleshyson/google-cloud-sdk/bin:/Users/myleshyson/Library/pnpm:/Users/myleshyson/.pyenv/shims:/Users/myleshyson/.composer/vendor/bin:/Users/myleshyson/go/bin:/Users/myleshyson/.bun/bin:/opt/homebrew/opt/nvm/versions/node/v24.9.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/myleshyson/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Users/myleshyson/.mint/bin:/Users/myleshyson/.opencode/bin:/opt/homebrew/opt/bison/bin:/Users/myleshyson/bin:/Users/myleshyson/.local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Users/myleshyson/.cargo/bin:/Applications/Ghostty.app/Contents/MacOS:/Users/myleshyson/Library/Application Support/JetBrains/Toolbox/scripts:/Users/myleshyson/.orbstack/bin
+[00:01:41] [D] Init var [PKG_CONFIG_PATH]:                       /Users/myleshyson/code/fusion/buildroot/lib/pkgconfig:/opt/homebrew/opt/icu4c/lib/pkgconfig:
+[00:01:41] [D] Init var [SPC_CONCURRENCY]:                       10
+[00:01:41] [D] Init var [SPC_SKIP_PHP_VERSION_CHECK]:            no
+[00:01:41] [D] Init var [SPC_SKIP_DOCTOR_CHECK_ITEMS]:           
+[00:01:41] [D] Init var [SPC_CMD_VAR_FRANKENPHP_XCADDY_MODULES]: --with github.com/dunglas/mercure/caddy --with github.com/dunglas/vulcain/caddy --with github.com/dunglas/caddy-cbrotli
+[00:01:41] [D] Init var [PHP_BUILD_PROVIDER]:                    static-php-cli 2.7.11
+[00:01:41] [D] Init var [SPC_TARGET]:                            native-macos
+[00:01:41] [D] Init var [CC]:                                    clang
+[00:01:41] [D] Init var [CXX]:                                   clang++
+[00:01:41] [D] Init var [AR]:                                    ar
+[00:01:41] [D] Init var [LD]:                                    ld
+[00:01:41] [D] Init var [SPC_DEFAULT_C_FLAGS]:                   --target=arm64-apple-darwin -Os
+[00:01:41] [D] Init var [SPC_DEFAULT_CXX_FLAGS]:                 --target=arm64-apple-darwin -Os
+[00:01:41] [D] Init var [SPC_DEFAULT_LD_FLAGS]:                  
+[00:01:41] [D] Init var [SPC_MICRO_PATCHES]:                     cli_checks,macos_iconv
+[00:01:41] [D] Init var [SPC_CMD_PREFIX_PHP_BUILDCONF]:          ./buildconf --force
+[00:01:41] [D] Init var [SPC_CMD_PREFIX_PHP_CONFIGURE]:          ./configure --prefix= --with-valgrind=no --enable-shared=no --enable-static=yes --disable-all --disable-phpdbg
+[00:01:41] [D] Init var [SPC_CMD_VAR_PHP_EMBED_TYPE]:            static
+[00:01:41] [D] Init var [SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS]:     -g -fstack-protector-strong -fpic -fpie -Werror=unknown-warning-option --target=arm64-apple-darwin -Os
+[00:01:41] [D] Init var [MACOSX_DEPLOYMENT_TARGET]:              12.0
+[00:01:41] [D] Init var [SPC_LINUX_DEFAULT_CC]:                  clang
+[00:01:41] [D] Init var [SPC_LINUX_DEFAULT_CXX]:                 clang++
+[00:01:41] [D] Init var [SPC_LINUX_DEFAULT_AR]:                  ar
+[00:01:41] [D] Init var [SPC_LINUX_DEFAULT_LD]:                  ld
+[00:01:41] [D] Init var [SPC_TOOLCHAIN]:                         SPC\toolchain\ClangNativeToolchain
+[00:01:41] [D] Init var [PKG_CONFIG]:                            /Users/myleshyson/code/fusion/pkgroot/aarch64-darwin/bin/pkg-config
+[00:01:41] [D] Init var [PHP_BUILD_COMPILER]:                    clang 17.0.0
+[00:01:41] [D] Init var [BISON]:                                 /opt/homebrew/opt/bison/bin/bison
+[00:01:41] [D] Init var [YACC]:                                  /opt/homebrew/opt/bison/bin/yacc
+[00:01:41] [I] Build OS:               Darwin (arm64)
+[00:01:41] [I] Build Target:           native-macos
+[00:01:41] [I] Build Toolchain:        SPC\toolchain\ClangNativeToolchain
+[00:01:41] [I] Build SAPI:             micro
+[00:01:41] [I] Static Extensions (10): ctype,dom,filter,iconv,mbstring,zlib,phar,posix,tokenizer,pcntl
+[00:01:41] [I] Shared Extensions (0):  
+[00:01:41] [I] Libraries (7):          libiconv,zlib,libxml2
+[00:01:41] [I] Strip Binaries:         yes
+[00:01:41] [I] Enable ZTS:             no
+[00:01:41] [I] Config File Path:       /usr/local/etc/php
+[00:01:41] [I] PHP Version:            8.4.17
+[00:01:41] [I] Extra Exts (1):         zlib
+[00:01:41] [N] Build will start after 2s ...
+[00:01:43] [D] scanning directory phar:///Users/myleshyson/code/fusion/spc/src/SPC/builder/macos/library
+[00:01:43] [D] enabling libxml2 without xz
+[00:01:43] [D] Extracting source [php-src] to /Users/myleshyson/code/fusion/source/php-src ...
+[00:01:43] [I] Extracting php-src source to /Users/myleshyson/code/fusion/source/php-src ...
+[00:01:43] [D] Making new directory recursive: /Users/myleshyson/code/fusion/source
+[00:01:43] [D] Extracting source [archive]: /Users/myleshyson/code/fusion/downloads/php-8.4.17.tar.xz
+[00:01:43] [D] Making new directory recursive: /Users/myleshyson/code/fusion/source/php-src
+[00:01:43] [D] [PASSTHRU] tar -xf /Users/myleshyson/code/fusion/downloads/php-8.4.17.tar.xz -C /Users/myleshyson/code/fusion/source/php-src --strip-components 1
+[00:01:47] [I] Patched source [php-src] after extracted
+[00:01:47] [D] Extracting source [micro] to /Users/myleshyson/code/fusion/source/php-src/sapi/micro ...
+[00:01:47] [I] Extracting micro source to /Users/myleshyson/code/fusion/source/php-src/sapi/micro ...
+[00:01:47] [D] Extracting source [git]: /Users/myleshyson/code/fusion/downloads/micro
+[00:01:47] [D] Copying directory from /Users/myleshyson/code/fusion/downloads/micro to /Users/myleshyson/code/fusion/source/php-src/sapi/micro
+[00:01:47] [D] [PASSTHRU] cp -r "/Users/myleshyson/code/fusion/downloads/micro" "/Users/myleshyson/code/fusion/source/php-src/sapi/micro"
+[00:01:47] [I] Patching micro with sapi/micro/patches/cli_checks_84.patch
+[00:01:47] [D] [PASSTHRU] cd '/Users/myleshyson/code/fusion/source/php-src' && cat '/Users/myleshyson/code/fusion/source/php-src/sapi/micro/patches/cli_checks_84.patch' | patch -p1 
+[00:01:47] [I] Patching micro with sapi/micro/patches/macos_iconv_84.patch
+[00:01:47] [D] [PASSTHRU] cd '/Users/myleshyson/code/fusion/source/php-src' && cat '/Users/myleshyson/code/fusion/source/php-src/sapi/micro/patches/macos_iconv_84.patch' | patch -p1 
+[00:01:47] [I] Installing required library [libiconv] from pre-built binaries
+[00:01:47] [I] Extracting libiconv-aarch64-darwin.txz package to /Users/myleshyson/code/fusion/buildroot ...
+[00:01:47] [D] Extracting source [archive]: /Users/myleshyson/code/fusion/downloads/libiconv-aarch64-darwin.txz
+[00:01:47] [D] Dir /Users/myleshyson/code/fusion/buildroot already exists, ignored
+[00:01:47] [D] [PASSTHRU] tar -xf /Users/myleshyson/code/fusion/downloads/libiconv-aarch64-darwin.txz -C /Users/myleshyson/code/fusion/buildroot --strip-components 1
+[00:01:48] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/buildroot/lib/libcharset.la
+[00:01:48] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/buildroot/lib/libiconv.la
+[00:01:48] [I] lib [libiconv] setup success, took 0.04 s
+[00:01:48] [I] Installing required library [zlib] from pre-built binaries
+[00:01:48] [I] Extracting zlib-aarch64-darwin.txz package to /Users/myleshyson/code/fusion/buildroot ...
+[00:01:48] [D] Extracting source [archive]: /Users/myleshyson/code/fusion/downloads/zlib-aarch64-darwin.txz
+[00:01:48] [D] Dir /Users/myleshyson/code/fusion/buildroot already exists, ignored
+[00:01:48] [D] [PASSTHRU] tar -xf /Users/myleshyson/code/fusion/downloads/zlib-aarch64-darwin.txz -C /Users/myleshyson/code/fusion/buildroot --strip-components 1
+[00:01:48] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/buildroot/lib/pkgconfig/zlib.pc
+[00:01:48] [I] lib [zlib] setup success, took 0.01 s
+[00:01:48] [I] Building required lib [libxml2]
+[00:01:48] [D] Extracting source [libxml2] to /Users/myleshyson/code/fusion/source/libxml2 ...
+[00:01:48] [I] Extracting libxml2 source to /Users/myleshyson/code/fusion/source/libxml2 ...
+[00:01:48] [D] Extracting source [archive]: /Users/myleshyson/code/fusion/downloads/GNOME-libxml2-v2.15.1-0-gb7fa62c.tar.gz
+[00:01:48] [D] Making new directory recursive: /Users/myleshyson/code/fusion/source/libxml2
+[00:01:48] [D] [PASSTHRU] tar -xzf /Users/myleshyson/code/fusion/downloads/GNOME-libxml2-v2.15.1-0-gb7fa62c.tar.gz -C /Users/myleshyson/code/fusion/source/libxml2 --strip-components 1
+[00:01:48] [I] Building library [libxml2] with zlib support
+[00:01:48] [I] Building library [libxml2] without xz support
+[00:01:48] [D] Making new directory recursive: /Users/myleshyson/code/fusion/source/libxml2/build
+[00:01:48] [D] Entering dir: /Users/myleshyson/code/fusion/source/libxml2/build
+[00:01:48] [D] making cmake tool chain file for Darwin aarch64 with CFLAGS='--target=arm64-apple-darwin -Os'
+[00:01:48] [I] [EXEC] cmake -DLIBXML2_WITH_ZLIB=ON -DZLIB_LIBRARY=/Users/myleshyson/code/fusion/buildroot/lib/libz.a -DZLIB_INCLUDE_DIR=/Users/myleshyson/code/fusion/buildroot/include -DLIBXML2_WITH_LZMA=OFF -DLIBXML2_WITH_ICONV=ON -DLIBXML2_WITH_ICU=OFF -DLIBXML2_WITH_PYTHON=OFF -DLIBXML2_WITH_PROGRAMS=OFF -DLIBXML2_WITH_TESTS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/Users/myleshyson/code/fusion/buildroot -DCMAKE_INSTALL_BINDIR=bin -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_INCLUDEDIR=include -DPOSITION_INDEPENDENT_CODE=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_TOOLCHAIN_FILE=/Users/myleshyson/code/fusion/source/toolchain.cmake ..
+[00:01:52] [I] [EXEC] cmake --build . -j 10
+[00:01:55] [I] [EXEC] make install
+[00:01:55] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/buildroot/lib/pkgconfig/libxml-2.0.pc
+[00:01:55] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/buildroot/lib/pkgconfig/libxml-2.0.pc
+[00:01:55] [D] Making new directory recursive: /Users/myleshyson/code/fusion/buildroot/source-licenses/libxml2
+[00:01:55] [I] lib [libxml2] setup success, took 7.1 s
+[00:01:55] [D] Inserting static-php-cli.version to php-src
+[00:01:55] [D] Removing path recursively: "/Users/myleshyson/code/fusion/buildroot/modules"
+[00:01:55] [D] Scan dir failed, no such file or directory.
+[00:01:55] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/source/php-src/win32/build/config.w32
+[00:01:55] [I] Extension [dom] patched before buildconf
+[00:01:55] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/source/php-src/configure.ac
+[00:01:55] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/source/php-src/build/php.m4
+[00:01:55] [D] Entering dir: /Users/myleshyson/code/fusion/source/php-src
+[00:01:55] [I] [EXEC] ./buildconf --force
+[00:01:57] [I] Extension [iconv] patched before configure
+[00:01:57] [D] Replacing file with type[2]: /Users/myleshyson/code/fusion/source/php-src/configure
+[00:01:57] [D] Entering dir: /Users/myleshyson/code/fusion/source/php-src
+[00:01:57] [I] ctype is using --enable-ctype 
+[00:01:57] [I] dom is using --enable-dom --with-libxml="/Users/myleshyson/code/fusion/buildroot"
+[00:01:57] [I] filter is using --enable-filter 
+[00:01:57] [I] iconv is using --with-iconv=/Users/myleshyson/code/fusion/buildroot 
+[00:01:57] [I] mbstring is using --enable-mbstring --disable-mbregex
+[00:01:57] [I] zlib is using --with-zlib
+[00:01:57] [I] phar is using --enable-phar 
+[00:01:57] [I] posix is using --enable-posix 
+[00:01:57] [I] tokenizer is using --enable-tokenizer 
+[00:01:57] [I] pcntl is using --enable-pcntl 
+[00:01:57] [D] Using configure: --enable-ctype --enable-dom --with-libxml="/Users/myleshyson/code/fusion/buildroot" --enable-filter --with-iconv=/Users/myleshyson/code/fusion/buildroot --enable-mbstring --disable-mbregex --with-zlib --enable-phar --enable-posix --enable-tokenizer --enable-pcntl
+[00:01:57] [I] [EXEC] ./configure --prefix= --with-valgrind=no --enable-shared=no --enable-static=yes --disable-all --disable-phpdbg --disable-cli --disable-fpm --disable-embed --enable-micro --disable-cgi --with-config-file-path=/usr/local/etc/php --with-config-file-scan-dir=/usr/local/etc/php/conf.d --enable-ctype --enable-dom --with-libxml="/Users/myleshyson/code/fusion/buildroot" --enable-filter --with-iconv=/Users/myleshyson/code/fusion/buildroot --enable-mbstring --disable-mbregex --with-zlib --enable-phar --enable-posix --enable-tokenizer --enable-pcntl CFLAGS='-g -fstack-protector-strong -fpic -fpie -Werror=unknown-warning-option --target=arm64-apple-darwin -Os' CPPFLAGS='-I/Users/myleshyson/code/fusion/buildroot/include' LDFLAGS='-L/Users/myleshyson/code/fusion/buildroot/lib'
+[00:02:26] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/source/php-src/Makefile
+[00:02:26] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/source/php-src/TSRM/TSRM.h
+[00:02:26] [I] cleaning up php-src build files
+[00:02:26] [D] Entering dir: /Users/myleshyson/code/fusion/source/php-src
+[00:02:26] [I] [EXEC] make clean
+[00:02:27] [I] building micro
+[00:02:27] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/source/php-src/ext/phar/phar.c
+[00:02:27] [D] Replacing file with type[1]: /Users/myleshyson/code/fusion/source/php-src/ext/phar/phar.c
+[00:02:27] [D] config extensions: ctype,dom,filter,iconv,mbstring,zlib,phar,posix,tokenizer,pcntl
+[00:02:27] [D] config libs: lib-base,micro,libiconv,zlib,libxml2,frankenphp,php
+[00:02:27] [D] config suggest for [ext, lib]: false,false
+[00:02:27] [D] Running command (no output) : pkg-config --static --cflags-only-other libxml-2.0
+[00:02:27] [D] Running command (no output) : pkg-config --static --libs-only-l libxml-2.0
+[00:02:27] [D] Running command (no output) : pkg-config --static --libs-only-other libxml-2.0
+[00:02:27] [D] Entering dir: /Users/myleshyson/code/fusion/source/php-src
+[00:02:27] [I] [EXEC] make -j10 EXTRA_CFLAGS='-g -fstack-protector-strong -fpic -fpie -Werror=unknown-warning-option --target=arm64-apple-darwin -Os' EXTRA_LDFLAGS_PROGRAM='-L/Users/myleshyson/code/fusion/buildroot/lib' EXTRA_LIBS='-lxml2 -lm -lz -liconv -lcharset -lresolv' micro
+[00:03:06] [D] Deploying binary from /Users/myleshyson/code/fusion/source/php-src/sapi/micro/micro.sfx to /Users/myleshyson/code/fusion/buildroot/bin/micro.sfx
+[00:03:06] [I] [EXEC] cp '/Users/myleshyson/code/fusion/source/php-src/sapi/micro/micro.sfx' '/Users/myleshyson/code/fusion/buildroot/bin/micro.sfx'
+[00:03:06] [D] Making new directory recursive: /Users/myleshyson/code/fusion/buildroot/debug
+[00:03:06] [I] [EXEC] dsymutil -f /Users/myleshyson/code/fusion/buildroot/bin/micro.sfx -o /Users/myleshyson/code/fusion/buildroot/debug/micro.sfx.dwarf
+[00:03:07] [I] [EXEC] strip -S /Users/myleshyson/code/fusion/buildroot/bin/micro.sfx
+[00:03:07] [I] [EXEC] /Users/myleshyson/code/fusion/source/micro_ext_test.exe
+[00:03:07] [I] [EXEC] /Users/myleshyson/code/fusion/source/micro_zend_bug_test.exe
+[00:03:07] [I] 
+[00:03:07] [I]    Build complete, used 85.33 s !
+[00:03:07] [I] 
+[00:03:07] [I] phpmicro binary path: /Users/myleshyson/code/fusion/buildroot/bin/micro.sfx
+[00:03:07] [D] Making new directory recursive: /Users/myleshyson/code/fusion/buildroot/license
+[00:03:07] [I] License path: /Users/myleshyson/code/fusion/buildroot/license/

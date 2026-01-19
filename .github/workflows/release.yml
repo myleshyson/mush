@@ -1,0 +1,123 @@
+name: Build Release Binaries
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.0.0)'
+        required: false
+        default: 'dev'
+
+env:
+  PHP_VERSION: '8.4'
+  EXTENSIONS: 'ctype,dom,filter,iconv,mbstring,phar,posix,tokenizer,pcntl'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux-x86_64
+            spc_arch: linux-x86_64
+            binary_name: fusion-linux-x86_64
+          - os: ubuntu-24.04-arm
+            target: linux-aarch64
+            spc_arch: linux-aarch64
+            binary_name: fusion-linux-aarch64
+          - os: macos-13
+            target: macos-x86_64
+            spc_arch: macos-x86_64
+            binary_name: fusion-macos-x86_64
+          - os: macos-14
+            target: macos-aarch64
+            spc_arch: macos-aarch64
+            binary_name: fusion-macos-aarch64
+
+    runs-on: ${{ matrix.os }}
+    name: Build ${{ matrix.target }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Download spc
+        run: |
+          curl -fsSL -o spc https://dl.static-php.dev/static-php-cli/spc-bin/nightly/spc-${{ matrix.spc_arch }}
+          chmod +x spc
+
+      - name: Create craft.yml
+        run: |
+          cat > craft.yml << 'EOF'
+          php-version: "${{ env.PHP_VERSION }}"
+          extensions: "${{ env.EXTENSIONS }}"
+          sapi:
+            - micro
+          download-options:
+            prefer-pre-built: true
+          EOF
+
+      - name: Build micro.sfx
+        run: ./spc craft
+
+      - name: Download box
+        run: |
+          curl -fsSL -o box.phar https://github.com/box-project/box/releases/download/4.6.6/box.phar
+          chmod +x box.phar
+
+      - name: Build PHAR
+        run: php box.phar compile
+
+      - name: Combine micro.sfx + PHAR
+        run: |
+          cat buildroot/bin/micro.sfx builds/fusion.phar > ${{ matrix.binary_name }}
+          chmod +x ${{ matrix.binary_name }}
+
+      - name: Test binary
+        run: |
+          ./${{ matrix.binary_name }} --version
+          ./${{ matrix.binary_name }} list
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.binary_name }}
+          path: ${{ matrix.binary_name }}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: binaries
+          merge-multiple: true
+
+      - name: List files
+        run: ls -la binaries/
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: binaries/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

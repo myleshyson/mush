@@ -2,62 +2,63 @@
 
 namespace Myleshyson\Fusion\Agents;
 
-class OpenCode extends BaseAgent
+class Copilot extends BaseAgent
 {
     public function name(): string
     {
-        return 'OpenCode';
+        return 'GitHub Copilot';
     }
 
     public function guidelinesPath(): string
     {
-        return 'AGENTS.md';
+        return '.github/copilot-instructions.md';
     }
 
     public function skillsPath(): string
     {
-        return '.opencode/skills/';
+        return '.github/skills/';
     }
 
     public function mcpPath(): string
     {
-        return 'opencode.json';
+        return '.vscode/mcp.json';
     }
 
     protected function transformMcpConfig(array $servers): array
     {
-        $mcpConfig = [];
+        // VS Code/Copilot uses "servers" key with "type": "http" for remote
+        $mcpServers = [];
 
         foreach ($servers as $name => $config) {
             $server = [];
 
             if (isset($config['command'])) {
-                // Local server
-                $server['type'] = 'local';
-                $server['command'] = $config['command'];
+                $command = $config['command'];
+                $server['command'] = is_array($command) ? $command[0] : $command;
+                if (is_array($command) && count($command) > 1) {
+                    $server['args'] = array_slice($command, 1);
+                }
                 if (isset($config['env'])) {
-                    $server['environment'] = $config['env'];
+                    $server['env'] = $config['env'];
                 }
             } elseif (isset($config['url'])) {
-                // Remote server
-                $server['type'] = 'remote';
+                $server['type'] = 'http';
                 $server['url'] = $config['url'];
                 if (isset($config['headers'])) {
                     $server['headers'] = $config['headers'];
                 }
             }
 
-            $mcpConfig[$name] = $server;
+            $mcpServers[$name] = $server;
         }
 
-        return ['mcp' => $mcpConfig];
+        return ['servers' => $mcpServers];
     }
 
     protected function mergeMcpConfig(array $existing, array $new): array
     {
-        // Merge mcp key specifically, preserving other opencode.json settings
-        if (isset($existing['mcp']) && isset($new['mcp'])) {
-            $new['mcp'] = array_replace_recursive($existing['mcp'], $new['mcp']);
+        if (isset($existing['servers']) && isset($new['servers'])) {
+            $new['servers'] = array_replace_recursive($existing['servers'], $new['servers']);
         }
 
         return array_replace_recursive($existing, $new);

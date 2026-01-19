@@ -1,2 +1,9 @@
 vendor
 .idea
+builds/*.phar
+builds/fusion
+fusion-*
+box.phar
+spc
+buildroot
+craft.yml

@@ -1,0 +1,40 @@
+{
+    "main": "bin/fusion",
+    "output": "builds/fusion.phar",
+    "directories": [
+        "src"
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "in": [
+                "vendor"
+            ],
+            "exclude": [
+                "Tests",
+                "tests",
+                "test",
+                "Test",
+                "docs",
+                "doc"
+            ]
+        },
+        {
+            "name": "*",
+            "in": [
+                "vendor/symfony/console/Resources"
+            ]
+        }
+    ],
+    "compression": "GZ",
+    "chmod": "0755",
+    "check-requirements": false,
+    "banner": [
+        "This file is part of Fusion.",
+        "",
+        "(c) Myles Hyson <myleshyson@ufl.edu>",
+        "",
+        "For the full copyright and license information, please view the LICENSE",
+        "file that was distributed with this source code."
+    ]
+}
