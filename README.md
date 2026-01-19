@@ -201,12 +201,17 @@ For personal MCP servers that shouldn't be committed (local databases, personal 
 
 Override servers completely replace matching servers from `mcp.json`. This file is automatically added to `.gitignore` during `fusion install`.
 
-For personal guidelines or skills, simply add files to `.fusion/guidelines/` or `.fusion/skills/` and add their paths to `.gitignore`:
+For personal guidelines or skills that shouldn't be shared, add them to `.fusion/` and gitignore them. Use the `!` prefix to explicitly track shared files:
 
 ```gitignore
-# Personal fusion config
-.fusion/guidelines/my-preferences.md
-.fusion/skills/my-snippets/
+# Ignore all fusion config by default
+.fusion/guidelines/*
+.fusion/skills/*
+
+# Track shared files
+!.fusion/guidelines/code-style.md
+!.fusion/guidelines/testing.md
+!.fusion/skills/api-design/
 ```
 
 ## Commands
