@@ -128,4 +128,43 @@ describe('GitignoreUpdater', function () {
         expect($content)->toContain('vendor/');
         expect($content)->toContain('/AGENTS.md');
     });
+
+    it('appends to existing Fusion section instead of creating new one', function () {
+        $existingContent = "vendor/\n\n# Fusion generated files\n/AGENTS.md\n/.claude/CLAUDE.md\n";
+        file_put_contents("{$this->artifactPath}/.gitignore", $existingContent);
+
+        $updater = new GitignoreUpdater($this->artifactPath);
+        $updater->addPaths(['.cursor/mcp.json', 'GEMINI.md']);
+
+        $content = file_get_contents("{$this->artifactPath}/.gitignore");
+
+        // Should only have one Fusion header
+        expect(substr_count($content, '# Fusion generated files'))->toBe(1);
+
+        // Should contain all paths
+        expect($content)->toContain('/AGENTS.md');
+        expect($content)->toContain('/.claude/CLAUDE.md');
+        expect($content)->toContain('/.cursor/mcp.json');
+        expect($content)->toContain('/GEMINI.md');
+    });
+
+    it('appends to Fusion section even when other sections follow', function () {
+        $existingContent = "# Fusion generated files\n/AGENTS.md\n\n# Other stuff\n/build/\n";
+        file_put_contents("{$this->artifactPath}/.gitignore", $existingContent);
+
+        $updater = new GitignoreUpdater($this->artifactPath);
+        $updater->addPaths(['.cursor/mcp.json']);
+
+        $content = file_get_contents("{$this->artifactPath}/.gitignore");
+
+        // Should only have one Fusion header
+        expect(substr_count($content, '# Fusion generated files'))->toBe(1);
+
+        // New path should be added to Fusion section
+        expect($content)->toContain('/.cursor/mcp.json');
+
+        // Other section should still be there
+        expect($content)->toContain('# Other stuff');
+        expect($content)->toContain('/build/');
+    });
 });

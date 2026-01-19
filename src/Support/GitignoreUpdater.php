@@ -4,6 +4,8 @@ namespace Myleshyson\Mush\Support;
 
 class GitignoreUpdater
 {
+    private const FUSION_HEADER = '# Fusion generated files';
+
     public function __construct(
         protected string $workingDirectory
     ) {}
@@ -42,15 +44,61 @@ class GitignoreUpdater
             return;
         }
 
-        // Add new paths to .gitignore
-        $content = $existingContent !== '' ? rtrim($existingContent) : '';
-        if ($content !== '') {
-            $content .= "\n\n";
+        // Check if Fusion section already exists
+        if (str_contains($existingContent, self::FUSION_HEADER)) {
+            // Append to existing Fusion section
+            $content = $this->appendToFusionSection($existingContent, $newPaths);
+        } else {
+            // Add new Fusion section at the end
+            $content = $existingContent !== '' ? rtrim($existingContent)."\n\n" : '';
+            $content .= self::FUSION_HEADER."\n";
+            $content .= implode("\n", $newPaths)."\n";
         }
-        $content .= "# Fusion generated files\n";
-        $content .= implode("\n", $newPaths)."\n";
 
         file_put_contents($gitignorePath, $content);
+    }
+
+    /**
+     * Append paths to the existing Fusion section in .gitignore.
+     *
+     * @param  string[]  $newPaths
+     */
+    protected function appendToFusionSection(string $content, array $newPaths): string
+    {
+        $lines = explode("\n", $content);
+        $result = [];
+        $inFusionSection = false;
+        $fusionSectionEnd = -1;
+
+        // Find the last Fusion section and its end
+        for ($i = 0; $i < count($lines); $i++) {
+            $line = $lines[$i];
+
+            if (trim($line) === self::FUSION_HEADER) {
+                $inFusionSection = true;
+                $fusionSectionEnd = $i;
+            } elseif ($inFusionSection) {
+                // We're in a Fusion section - track the last non-empty line
+                if (trim($line) !== '' && ! str_starts_with(trim($line), '#')) {
+                    $fusionSectionEnd = $i;
+                } elseif (str_starts_with(trim($line), '#') && trim($line) !== self::FUSION_HEADER) {
+                    // Hit a different comment section, Fusion section ended
+                    $inFusionSection = false;
+                }
+            }
+        }
+
+        // Insert new paths after the last Fusion section entry
+        foreach ($lines as $i => $line) {
+            $result[] = $line;
+            if ($i === $fusionSectionEnd) {
+                foreach ($newPaths as $path) {
+                    $result[] = $path;
+                }
+            }
+        }
+
+        return implode("\n", $result);
     }
 
     /**
