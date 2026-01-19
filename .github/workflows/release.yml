@@ -1,0 +1,204 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-unix:
+    name: Build ${{ matrix.os }}-${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            arch: x86_64
+            runner: ubuntu-latest
+            spc_os: linux
+            spc_arch: x86_64
+          - os: linux
+            arch: aarch64
+            runner: ubuntu-24.04-arm
+            spc_os: linux
+            spc_arch: aarch64
+          - os: macos
+            arch: x86_64
+            runner: macos-15-intel
+            spc_os: macos
+            spc_arch: x86_64
+          - os: macos
+            arch: aarch64
+            runner: macos-14
+            spc_os: macos
+            spc_arch: aarch64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, mbstring, xml, phar
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Create builds directory
+        run: mkdir -p builds
+
+      - name: Download spc
+        run: |
+          curl -fsSL -o builds/spc "https://dl.static-php.dev/static-php-cli/spc-bin/nightly/spc-${{ matrix.spc_os }}-${{ matrix.spc_arch }}"
+          chmod +x builds/spc
+
+      - name: Create craft.yml
+        run: |
+          cat > builds/craft.yml << 'EOF'
+          php-version: "8.4"
+          extensions: "ctype,dom,filter,iconv,mbstring,phar,posix,tokenizer,pcntl"
+          sapi:
+            - micro
+          download-options:
+            prefer-pre-built: true
+          EOF
+
+      - name: Build micro.sfx
+        run: cd builds && ./spc craft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download box
+        run: |
+          curl -fsSL -o builds/box.phar "https://github.com/box-project/box/releases/download/4.6.6/box.phar"
+          chmod +x builds/box.phar
+
+      - name: Build PHAR
+        run: php builds/box.phar compile
+
+      - name: Combine micro.sfx + PHAR
+        run: |
+          cat builds/buildroot/bin/micro.sfx builds/fusion.phar > builds/fusion
+          chmod +x builds/fusion
+
+      - name: Test binary
+        run: ./builds/fusion --version
+
+      - name: Rename binary for release
+        run: mv builds/fusion builds/fusion-${{ matrix.os }}-${{ matrix.arch }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fusion-${{ matrix.os }}-${{ matrix.arch }}
+          path: builds/fusion-${{ matrix.os }}-${{ matrix.arch }}
+
+  build-windows:
+    name: Build windows-x64
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, mbstring, xml, phar
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Create builds directory
+        run: New-Item -ItemType Directory -Force -Path builds
+
+      - name: Download spc
+        run: |
+          Invoke-WebRequest -Uri "https://dl.static-php.dev/static-php-cli/spc-bin/nightly/spc-windows-x64.exe" -OutFile "builds\spc.exe"
+
+      - name: Create craft.yml
+        run: |
+          @"
+          php-version: "8.4"
+          extensions: "ctype,dom,filter,iconv,mbstring,phar,tokenizer"
+          sapi:
+            - micro
+          download-options:
+            prefer-pre-built: true
+          "@ | Out-File -FilePath "builds\craft.yml" -Encoding UTF8
+
+      - name: Build micro.sfx
+        run: |
+          cd builds
+          .\spc.exe craft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download box
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/box-project/box/releases/download/4.6.6/box.phar" -OutFile "builds\box.phar"
+
+      - name: Build PHAR
+        run: php builds\box.phar compile --allow-composer-check-failure
+
+      - name: Combine micro.sfx + PHAR
+        run: |
+          cmd /c copy /b builds\buildroot\bin\micro.sfx + builds\fusion.phar builds\fusion.exe
+
+      - name: Test binary
+        run: .\builds\fusion.exe --version
+
+      - name: Rename binary for release
+        run: Move-Item builds\fusion.exe builds\fusion-windows-x64.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fusion-windows-x64
+          path: builds/fusion-windows-x64.exe
+
+  release:
+    name: Create Release
+    needs: [build-unix, build-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Prepare release files
+        run: |
+          mkdir -p release
+          for dir in artifacts/fusion-*; do
+            cp "$dir"/* release/
+          done
+          chmod +x release/fusion-linux-* release/fusion-macos-* || true
+          ls -la release/
+
+      - name: Create checksums
+        run: |
+          cd release
+          sha256sum fusion-* > checksums.txt
+          cat checksums.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/fusion-*
+            release/checksums.txt
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref, '-') }}

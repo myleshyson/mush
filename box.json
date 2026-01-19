@@ -29,6 +29,8 @@
     "compression": "GZ",
     "chmod": "0755",
     "check-requirements": false,
+    "dump-autoload": false,
+    "force-autodiscovery": true,
     "banner": [
         "This file is part of Fusion.",
         "",

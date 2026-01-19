@@ -6,6 +6,7 @@ use Myleshyson\Fusion\Compilers\GuidelinesCompiler;
 use Myleshyson\Fusion\Compilers\SkillsCompiler;
 use Myleshyson\Fusion\Support\AgentFactory;
 use Myleshyson\Fusion\Support\GitignoreUpdater;
+use Myleshyson\Fusion\Support\McpConfigReader;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -75,8 +76,8 @@ class UpdateCommand extends Command
         // Format output content
         $content = $this->formatOutput($guidelines, $skills);
 
-        // Read MCP config
-        $mcpConfig = $this->readMcpConfig($fusionPath);
+        // Read MCP config (base + override)
+        $mcpConfig = McpConfigReader::read($fusionPath);
 
         // Write to each detected agent's paths
         $writtenPaths = [];
@@ -157,30 +158,6 @@ class UpdateCommand extends Command
         $output .= "\n</fusion-guidelines>\n";
 
         return $output;
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    protected function readMcpConfig(string $fusionPath): array
-    {
-        $mcpPath = $fusionPath.'/mcp.json';
-        if (! file_exists($mcpPath)) {
-            return [];
-        }
-
-        $content = file_get_contents($mcpPath);
-        if ($content === false) {
-            return [];
-        }
-
-        $config = json_decode($content, true);
-        if (! is_array($config)) {
-            return [];
-        }
-
-        /** @var array<string, mixed> */
-        return $config['servers'] ?? [];
     }
 
     protected function writeCustomGuidelines(string $workingDirectory, string $path, string $content): void
