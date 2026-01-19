@@ -16,3 +16,6 @@ builds/
 /.vscode/mcp.json
 /AGENTS.md
 /.codex/skills/
+
+# Fusion generated files
+/.mush/mcp.override.json

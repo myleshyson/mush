@@ -40,7 +40,7 @@ class Cursor extends BaseAgent
         $this->ensureDirectoryExists($path);
 
         // Wrap content with MDC frontmatter for Cursor rules format
-        $mdcContent = "---\nalwaysApply: true\n---\n\n" . $content;
+        $mdcContent = "---\nalwaysApply: true\n---\n\n".$content;
 
         file_put_contents($path, $mdcContent);
     }

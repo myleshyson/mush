@@ -16,6 +16,7 @@ class App extends Application
         $app = new self('Mush', self::resolveVersion());
 
         // Use addCommand if available (Symfony 7.4+), fall back to add for older versions
+        // @phpstan-ignore function.alreadyNarrowedType
         if (method_exists($app, 'addCommand')) {
             $app->addCommand(new InstallCommand);
             $app->addCommand(new UpdateCommand);
