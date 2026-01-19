@@ -4,7 +4,9 @@ namespace Myleshyson\Mush\Support;
 
 class GitignoreUpdater
 {
-    private const FUSION_HEADER = '# Fusion generated files';
+    private const MUSH_START = '# MUSH GENERATED FILES';
+
+    private const MUSH_END = '# END MUSH GENERATED FILES';
 
     public function __construct(
         protected string $workingDirectory
@@ -44,58 +46,64 @@ class GitignoreUpdater
             return;
         }
 
-        // Check if Fusion section already exists
-        if (str_contains($existingContent, self::FUSION_HEADER)) {
-            // Append to existing Fusion section
-            $content = $this->appendToFusionSection($existingContent, $newPaths);
+        // Check if Mush section already exists
+        if (str_contains($existingContent, self::MUSH_START)) {
+            // Append to existing Mush section
+            $content = $this->appendToMushSection($existingContent, $newPaths);
         } else {
-            // Add new Fusion section at the end
+            // Add new Mush section at the end
             $content = $existingContent !== '' ? rtrim($existingContent)."\n\n" : '';
-            $content .= self::FUSION_HEADER."\n";
+            $content .= self::MUSH_START."\n";
             $content .= implode("\n", $newPaths)."\n";
+            $content .= self::MUSH_END."\n";
         }
 
         file_put_contents($gitignorePath, $content);
     }
 
     /**
-     * Append paths to the existing Fusion section in .gitignore.
+     * Append paths to the existing Mush section in .gitignore.
      *
      * @param  string[]  $newPaths
      */
-    protected function appendToFusionSection(string $content, array $newPaths): string
+    protected function appendToMushSection(string $content, array $newPaths): string
     {
         $lines = explode("\n", $content);
         $result = [];
-        $inFusionSection = false;
-        $fusionSectionEnd = -1;
+        $inMushSection = false;
+        $insertIndex = -1;
 
-        // Find the last Fusion section and its end
         for ($i = 0; $i < count($lines); $i++) {
             $line = $lines[$i];
+            $trimmedLine = trim($line);
 
-            if (trim($line) === self::FUSION_HEADER) {
-                $inFusionSection = true;
-                $fusionSectionEnd = $i;
-            } elseif ($inFusionSection) {
-                // We're in a Fusion section - track the last non-empty line
-                if (trim($line) !== '' && ! str_starts_with(trim($line), '#')) {
-                    $fusionSectionEnd = $i;
-                } elseif (str_starts_with(trim($line), '#') && trim($line) !== self::FUSION_HEADER) {
-                    // Hit a different comment section, Fusion section ended
-                    $inFusionSection = false;
-                }
+            if ($trimmedLine === self::MUSH_START) {
+                $inMushSection = true;
+                $result[] = $line;
+
+                continue;
             }
-        }
 
-        // Insert new paths after the last Fusion section entry
-        foreach ($lines as $i => $line) {
-            $result[] = $line;
-            if ($i === $fusionSectionEnd) {
+            if ($trimmedLine === self::MUSH_END) {
+                // Insert new paths before the END marker
                 foreach ($newPaths as $path) {
                     $result[] = $path;
                 }
+                $inMushSection = false;
+                $result[] = $line;
+
+                continue;
             }
+
+            $result[] = $line;
+        }
+
+        // If we never found an END marker, add paths and the END marker
+        if ($inMushSection) {
+            foreach ($newPaths as $path) {
+                $result[] = $path;
+            }
+            $result[] = self::MUSH_END;
         }
 
         return implode("\n", $result);
