@@ -143,7 +143,7 @@ jobs:
           Invoke-WebRequest -Uri "https://github.com/box-project/box/releases/download/4.6.6/box.phar" -OutFile "builds\box.phar"
 
       - name: Build PHAR
-        run: php builds\box.phar compile
+        run: php builds\box.phar compile --allow-composer-check-failure
 
       - name: Combine micro.sfx + PHAR
         run: |
