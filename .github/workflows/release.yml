@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  build-unix:
     name: Build ${{ matrix.os }}-${{ matrix.arch }}
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -98,9 +98,72 @@ jobs:
           name: fusion-${{ matrix.os }}-${{ matrix.arch }}
           path: builds/fusion-${{ matrix.os }}-${{ matrix.arch }}
 
+  build-windows:
+    name: Build windows-x64
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, mbstring, xml, phar
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Create builds directory
+        run: New-Item -ItemType Directory -Force -Path builds
+
+      - name: Download spc
+        run: |
+          Invoke-WebRequest -Uri "https://dl.static-php.dev/static-php-cli/spc-bin/nightly/spc-windows-x64.exe" -OutFile "builds\spc.exe"
+
+      - name: Create craft.yml
+        run: |
+          @"
+          php-version: "8.4"
+          extensions: "ctype,dom,filter,iconv,mbstring,phar,tokenizer"
+          sapi:
+            - micro
+          download-options:
+            prefer-pre-built: true
+          "@ | Out-File -FilePath "builds\craft.yml" -Encoding UTF8
+
+      - name: Build micro.sfx
+        run: |
+          cd builds
+          .\spc.exe craft
+
+      - name: Download box
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/box-project/box/releases/download/4.6.6/box.phar" -OutFile "builds\box.phar"
+
+      - name: Build PHAR
+        run: php builds\box.phar compile
+
+      - name: Combine micro.sfx + PHAR
+        run: |
+          cmd /c copy /b builds\buildroot\bin\micro.sfx + builds\fusion.phar builds\fusion.exe
+
+      - name: Test binary
+        run: .\builds\fusion.exe --version
+
+      - name: Rename binary for release
+        run: Move-Item builds\fusion.exe builds\fusion-windows-x64.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fusion-windows-x64
+          path: builds/fusion-windows-x64.exe
+
   release:
     name: Create Release
-    needs: build
+    needs: [build-unix, build-windows]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -117,7 +180,7 @@ jobs:
           for dir in artifacts/fusion-*; do
             cp "$dir"/* release/
           done
-          chmod +x release/*
+          chmod +x release/fusion-linux-* release/fusion-macos-* || true
           ls -la release/
 
       - name: Create checksums

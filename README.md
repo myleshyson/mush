@@ -44,6 +44,7 @@ the [releases page](https://github.com/myleshyson/fusion/releases):
 - `fusion-linux-aarch64` - Linux (ARM64)
 - `fusion-macos-x86_64` - macOS (Intel)
 - `fusion-macos-aarch64` - macOS (Apple Silicon)
+- `fusion-windows-x64.exe` - Windows (64-bit)
 
 ### Install via Composer (PHP 8.2+)
 
