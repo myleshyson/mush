@@ -26,13 +26,13 @@ curl -fsSL https://raw.githubusercontent.com/myleshyson/mush/main/install.sh | s
 ### Custom Install Location
 
 ```bash
-MUSH_INSTALL_DIR=~/.local/bin curl -fsSL https://raw.githubusercontent.com/myleshyson/mush/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/myleshyson/mush/main/install.sh | MUSH_INSTALL_DIR=~/.local/bin sh
 ```
 
 ### Install Specific Version
 
 ```bash
-MUSH_VERSION=v1.0.0 curl -fsSL https://raw.githubusercontent.com/myleshyson/mush/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/myleshyson/mush/main/install.sh | MUSH_VERSION=v1.0.0 sh
 ```
 
 ### Manual Download
