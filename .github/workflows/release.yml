@@ -72,6 +72,8 @@ jobs:
 
       - name: Build micro.sfx
         run: cd builds && ./spc craft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download box
         run: |
@@ -137,6 +139,8 @@ jobs:
         run: |
           cd builds
           .\spc.exe craft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download box
         run: |
