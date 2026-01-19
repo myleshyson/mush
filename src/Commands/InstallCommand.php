@@ -94,7 +94,7 @@ class InstallCommand extends Command
         $output->writeln('');
         $output->writeln('Next steps:');
         $output->writeln('  1. Add guideline markdown files to <comment>.fusion/guidelines/</comment>');
-        $output->writeln('  2. Add skill markdown files to <comment>.fusion/skills/</comment>');
+        $output->writeln('  2. Add skills as subdirectories with SKILL.md to <comment>.fusion/skills/</comment>');
         $output->writeln('  3. Configure MCP servers in <comment>.fusion/mcp.json</comment>');
         $output->writeln('  4. Run <comment>fusion update</comment> to sync changes');
 
@@ -161,7 +161,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * @param  array<string, string>  $skills
+     * @param  array<string, array{name: string, description: string, content: string}>  $skills
      */
     protected function formatOutput(string $guidelines, array $skills): string
     {
@@ -173,10 +173,17 @@ class InstallCommand extends Command
         if (empty($skills)) {
             $output .= '(No skills defined yet)';
         } else {
-            $output .= implode("\n\n", $skills);
+            $output .= "Available skills:\n";
+            foreach ($skills as $skillName => $skillData) {
+                $output .= "- {$skillName}";
+                if (! empty($skillData['description'])) {
+                    $output .= ": {$skillData['description']}";
+                }
+                $output .= "\n";
+            }
         }
 
-        $output .= "\n\n</fusion-guidelines>\n";
+        $output .= "\n</fusion-guidelines>\n";
 
         return $output;
     }

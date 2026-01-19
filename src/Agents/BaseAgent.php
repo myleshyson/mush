@@ -84,10 +84,35 @@ abstract class BaseAgent implements AgentInterface
         $basePath = $this->fullPath($this->skillsPath());
         $this->ensureDirectoryExists($basePath);
 
-        foreach ($skills as $filename => $content) {
-            $skillPath = rtrim($basePath, '/').'/'.$filename;
+        foreach ($skills as $skillName => $skillData) {
+            // Each skill is a subdirectory containing a SKILL.md file
+            $skillDir = rtrim($basePath, '/').'/'.$skillName;
+            if (! is_dir($skillDir)) {
+                mkdir($skillDir, 0755, true);
+            }
+            $skillPath = $skillDir.'/SKILL.md';
+
+            $content = $this->reconstructSkillContent($skillData);
             file_put_contents($skillPath, $content);
         }
+    }
+
+    /**
+     * Reconstruct the full SKILL.md content from parsed skill data.
+     *
+     * @param  array{name: string, description: string, content: string}  $skillData
+     */
+    protected function reconstructSkillContent(array $skillData): string
+    {
+        $output = "---\n";
+        $output .= "name: {$skillData['name']}\n";
+        if ($skillData['description'] !== '') {
+            $output .= "description: {$skillData['description']}\n";
+        }
+        $output .= "---\n\n";
+        $output .= $skillData['content'];
+
+        return $output;
     }
 
     public function writeMcpConfig(array $servers): void

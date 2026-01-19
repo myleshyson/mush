@@ -7,8 +7,8 @@ use Myleshyson\Fusion\Agents\Codex;
 use Myleshyson\Fusion\Agents\Copilot;
 use Myleshyson\Fusion\Agents\Cursor;
 use Myleshyson\Fusion\Agents\Gemini;
+use Myleshyson\Fusion\Agents\Junie;
 use Myleshyson\Fusion\Agents\OpenCode;
-use Myleshyson\Fusion\Agents\PhpStorm;
 use Myleshyson\Fusion\Contracts\AgentInterface;
 
 class AgentFactory
@@ -22,7 +22,7 @@ class AgentFactory
     private static array $agents = [
         ClaudeCode::class,
         OpenCode::class,
-        PhpStorm::class,
+        Junie::class,
         Gemini::class,
         Copilot::class,
         Codex::class,

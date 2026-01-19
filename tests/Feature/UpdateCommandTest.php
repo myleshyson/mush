@@ -46,6 +46,42 @@ it('updates agent files based on auto-detection', function () {
     expect($content)->toContain('Test Guideline');
 });
 
+it('lists available skills in agent guidelines file', function () {
+    // Set up .fusion directory
+    $fusionPath = "{$this->artifactPath}/.fusion";
+    mkdir($fusionPath, 0777, true);
+    mkdir("{$fusionPath}/guidelines", 0777, true);
+    mkdir("{$fusionPath}/skills", 0777, true);
+    file_put_contents("{$fusionPath}/mcp.json", json_encode(['servers' => []]));
+
+    // Create skills using subdirectory structure
+    mkdir("{$fusionPath}/skills/tailwind", 0777, true);
+    mkdir("{$fusionPath}/skills/testing", 0777, true);
+    file_put_contents("{$fusionPath}/skills/tailwind/SKILL.md", '# Tailwind CSS skill content');
+    file_put_contents("{$fusionPath}/skills/testing/SKILL.md", '# Testing skill content');
+
+    // Create an existing Claude Code config file to trigger detection
+    mkdir("{$this->artifactPath}/.claude", 0777, true);
+    file_put_contents("{$this->artifactPath}/.claude/CLAUDE.md", '# Placeholder');
+
+    $command = new UpdateCommand;
+    $command->setApplication(App::build());
+
+    TestCommand::for($command)
+        ->execute("--working-dir={$this->artifactPath}")
+        ->assertSuccessful();
+
+    // Verify skills are listed by name in the guidelines file
+    $content = file_get_contents("{$this->artifactPath}/.claude/CLAUDE.md");
+    expect($content)->toContain('Available skills:');
+    expect($content)->toContain('- tailwind');
+    expect($content)->toContain('- testing');
+
+    // Verify full skill content is NOT in the guidelines file
+    expect($content)->not->toContain('Tailwind CSS skill content');
+    expect($content)->not->toContain('Testing skill content');
+});
+
 it('fails if fusion is not initialized', function () {
     $command = new UpdateCommand;
     $command->setApplication(App::build());
@@ -124,8 +160,9 @@ it('accepts custom skill paths', function () {
     mkdir("{$fusionPath}/skills", 0777, true);
     file_put_contents("{$fusionPath}/mcp.json", json_encode(['servers' => []]));
 
-    // Write a skill
-    file_put_contents("{$fusionPath}/skills/my-skill.md", '# My Skill Content');
+    // Write a skill using the subdirectory structure
+    mkdir("{$fusionPath}/skills/my-skill", 0777, true);
+    file_put_contents("{$fusionPath}/skills/my-skill/SKILL.md", '# My Skill Content');
 
     // Create an existing Cursor config file to trigger detection
     file_put_contents("{$this->artifactPath}/.cursorrules", '# Placeholder');
@@ -138,9 +175,9 @@ it('accepts custom skill paths', function () {
         ->assertSuccessful()
         ->assertOutputContains('custom skill path');
 
-    // Verify skill was written to custom path
-    expect("{$this->artifactPath}/custom/skills/my-skill.md")->toBeFile();
-    expect(file_get_contents("{$this->artifactPath}/custom/skills/my-skill.md"))->toContain('My Skill Content');
+    // Verify skill was written to custom path with subdirectory structure
+    expect("{$this->artifactPath}/custom/skills/my-skill/SKILL.md")->toBeFile();
+    expect(file_get_contents("{$this->artifactPath}/custom/skills/my-skill/SKILL.md"))->toContain('My Skill Content');
 });
 
 it('accepts custom MCP paths', function () {

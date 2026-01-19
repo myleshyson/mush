@@ -1,16 +1,6 @@
 vendor
 .idea
-builds/*.phar
-builds/fusion
-fusion-*
-box.phar
-spc
-buildroot
-pkgroot
-log
-downloads
-source
-craft.yml
+builds/
 
 # Fusion generated files
 /.claude/CLAUDE.md

@@ -5,8 +5,8 @@ use Myleshyson\Fusion\Agents\Codex;
 use Myleshyson\Fusion\Agents\Copilot;
 use Myleshyson\Fusion\Agents\Cursor;
 use Myleshyson\Fusion\Agents\Gemini;
+use Myleshyson\Fusion\Agents\Junie;
 use Myleshyson\Fusion\Agents\OpenCode;
-use Myleshyson\Fusion\Agents\PhpStorm;
 
 beforeEach(function () {
     $this->artifactPath = __DIR__.'/../artifacts/agents';
@@ -71,12 +71,31 @@ describe('ClaudeCode', function () {
     it('writes skills correctly', function () {
         $agent = new ClaudeCode($this->artifactPath);
         $agent->writeSkills([
-            'skill1.md' => '# Skill 1',
-            'skill2.md' => '# Skill 2',
+            'skill1' => [
+                'name' => 'skill1',
+                'description' => 'First skill',
+                'content' => '# Skill 1',
+            ],
+            'skill2' => [
+                'name' => 'skill2',
+                'description' => 'Second skill',
+                'content' => '# Skill 2',
+            ],
         ]);
 
-        expect("{$this->artifactPath}/.claude/skills/skill1.md")->toBeFile();
-        expect("{$this->artifactPath}/.claude/skills/skill2.md")->toBeFile();
+        // Skills are written as subdirectories containing SKILL.md files
+        expect("{$this->artifactPath}/.claude/skills/skill1/SKILL.md")->toBeFile();
+        expect("{$this->artifactPath}/.claude/skills/skill2/SKILL.md")->toBeFile();
+
+        $skill1Content = file_get_contents("{$this->artifactPath}/.claude/skills/skill1/SKILL.md");
+        $skill2Content = file_get_contents("{$this->artifactPath}/.claude/skills/skill2/SKILL.md");
+
+        expect($skill1Content)->toContain('name: skill1');
+        expect($skill1Content)->toContain('description: First skill');
+        expect($skill1Content)->toContain('# Skill 1');
+        expect($skill2Content)->toContain('name: skill2');
+        expect($skill2Content)->toContain('description: Second skill');
+        expect($skill2Content)->toContain('# Skill 2');
     });
 
     it('transforms MCP config with local server', function () {
@@ -883,23 +902,23 @@ describe('Codex', function () {
     });
 });
 
-// ==================== PhpStorm Tests ====================
+// ==================== Junie Tests ====================
 
-describe('PhpStorm', function () {
+describe('Junie', function () {
     it('returns correct name', function () {
-        $agent = new PhpStorm($this->artifactPath);
-        expect($agent->name())->toBe('PhpStorm (Junie)');
+        $agent = new Junie($this->artifactPath);
+        expect($agent->name())->toBe('Junie (Junie)');
     });
 
     it('returns correct paths', function () {
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         expect($agent->guidelinesPath())->toBe('.junie/guidelines.md');
         expect($agent->skillsPath())->toBe('.junie/skills/');
         expect($agent->mcpPath())->toBe('.junie/mcp/mcp.json');
     });
 
     it('uses default detection paths', function () {
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         expect($agent->detectionPaths())->toBe([
             '.junie/guidelines.md',
             '.junie/mcp/mcp.json',
@@ -907,7 +926,7 @@ describe('PhpStorm', function () {
     });
 
     it('transforms MCP config with local server', function () {
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'db' => ['command' => ['psql'], 'env' => ['URL' => 'pg://']],
         ]);
@@ -918,7 +937,7 @@ describe('PhpStorm', function () {
     });
 
     it('transforms MCP config with remote server', function () {
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'remote' => [
                 'url' => 'https://api.example.com/mcp',
@@ -932,7 +951,7 @@ describe('PhpStorm', function () {
     });
 
     it('skips non-array config values', function () {
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'valid' => ['command' => ['cmd']],
             'invalid' => 12345,
@@ -950,7 +969,7 @@ describe('PhpStorm', function () {
             'settings' => ['key' => 'value'],
         ]));
 
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'new' => ['command' => ['new-cmd']],
         ]);
@@ -962,7 +981,7 @@ describe('PhpStorm', function () {
     });
 
     it('continues processing after invalid config (not break)', function () {
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'first' => ['command' => ['cmd1', 'arg1']],
             'invalid' => 'not-an-array',
@@ -978,7 +997,7 @@ describe('PhpStorm', function () {
     });
 
     it('creates args only when command has more than 1 element', function () {
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'single' => ['command' => ['only-command']],
             'double' => ['command' => ['cmd', 'arg']],
@@ -994,7 +1013,7 @@ describe('PhpStorm', function () {
     });
 
     it('includes env when present in local server config', function () {
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'with-env' => [
                 'command' => ['cmd'],
@@ -1011,7 +1030,7 @@ describe('PhpStorm', function () {
     });
 
     it('handles command as string instead of array', function () {
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'string-cmd' => ['command' => 'simple-string'],
         ]);
@@ -1028,7 +1047,7 @@ describe('PhpStorm', function () {
             'otherKey' => 'preserved',
         ]));
 
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'new' => ['command' => ['new-cmd']],
         ]);
@@ -1046,7 +1065,7 @@ describe('PhpStorm', function () {
             ],
         ]));
 
-        $agent = new PhpStorm($this->artifactPath);
+        $agent = new Junie($this->artifactPath);
         $agent->writeMcpConfig([
             'new' => ['command' => ['new-cmd', 'arg']],
         ]);

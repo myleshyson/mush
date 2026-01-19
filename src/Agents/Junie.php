@@ -2,16 +2,16 @@
 
 namespace Myleshyson\Fusion\Agents;
 
-class PhpStorm extends BaseAgent
+class Junie extends BaseAgent
 {
     public static function optionName(): string
     {
-        return 'phpstorm';
+        return 'junie';
     }
 
     public function name(): string
     {
-        return 'PhpStorm (Junie)';
+        return 'Junie';
     }
 
     public function guidelinesPath(): string
@@ -31,7 +31,7 @@ class PhpStorm extends BaseAgent
 
     protected function transformMcpConfig(array $servers): array
     {
-        // PhpStorm/Junie uses same format as Claude Code
+        // Junie/Junie uses same format as Claude Code
         $mcpServers = [];
 
         foreach ($servers as $name => $config) {

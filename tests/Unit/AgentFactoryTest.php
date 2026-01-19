@@ -5,8 +5,8 @@ use Myleshyson\Fusion\Agents\Codex;
 use Myleshyson\Fusion\Agents\Copilot;
 use Myleshyson\Fusion\Agents\Cursor;
 use Myleshyson\Fusion\Agents\Gemini;
+use Myleshyson\Fusion\Agents\Junie;
 use Myleshyson\Fusion\Agents\OpenCode;
-use Myleshyson\Fusion\Agents\PhpStorm;
 use Myleshyson\Fusion\Support\AgentFactory;
 
 beforeEach(function () {
@@ -28,7 +28,7 @@ describe('AgentFactory', function () {
             expect($classes)->toHaveCount(7);
             expect($classes)->toContain(ClaudeCode::class);
             expect($classes)->toContain(OpenCode::class);
-            expect($classes)->toContain(PhpStorm::class);
+            expect($classes)->toContain(Junie::class);
             expect($classes)->toContain(Gemini::class);
             expect($classes)->toContain(Copilot::class);
             expect($classes)->toContain(Codex::class);
@@ -44,7 +44,7 @@ describe('AgentFactory', function () {
             expect($map)->toHaveCount(7);
             expect($map['claude'])->toBe(ClaudeCode::class);
             expect($map['opencode'])->toBe(OpenCode::class);
-            expect($map['phpstorm'])->toBe(PhpStorm::class);
+            expect($map['phpstorm'])->toBe(Junie::class);
             expect($map['gemini'])->toBe(Gemini::class);
             expect($map['copilot'])->toBe(Copilot::class);
             expect($map['codex'])->toBe(Codex::class);
@@ -60,7 +60,7 @@ describe('AgentFactory', function () {
             expect($options)->toHaveCount(7);
             expect($options['claude'])->toBe('Claude Code');
             expect($options['opencode'])->toBe('OpenCode');
-            expect($options['phpstorm'])->toBe('PhpStorm (Junie)');
+            expect($options['phpstorm'])->toBe('Junie (Junie)');
             expect($options['gemini'])->toBe('Gemini');
             expect($options['copilot'])->toBe('GitHub Copilot');
             expect($options['codex'])->toBe('OpenAI Codex');
@@ -134,8 +134,8 @@ describe('Agent optionName() static method', function () {
         expect(OpenCode::optionName())->toBe('opencode');
     });
 
-    it('PhpStorm returns phpstorm', function () {
-        expect(PhpStorm::optionName())->toBe('phpstorm');
+    it('Junie returns phpstorm', function () {
+        expect(Junie::optionName())->toBe('phpstorm');
     });
 
     it('Gemini returns gemini', function () {

@@ -52,7 +52,7 @@ interface AgentInterface
     /**
      * Write skills to the agent's skills path.
      *
-     * @param  array<string, string>  $skills  Map of filename => content
+     * @param  array<string, array{name: string, description: string, content: string}>  $skills  Map of skill-name => skill data
      */
     public function writeSkills(array $skills): void;
 
