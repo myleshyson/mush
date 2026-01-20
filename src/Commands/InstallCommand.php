@@ -41,14 +41,6 @@ class InstallCommand extends Command
         $workingDirectory = $input->getOption('working-dir') ?? getcwd();
         $mushPath = $workingDirectory.'/.mush';
 
-        // Check if .mush already exists
-        if (is_dir($mushPath)) {
-            $output->writeln('<error>Mush is already initialized in this directory.</error>');
-            $output->writeln('Run <info>mush update</info> to sync agent files.');
-
-            return Command::FAILURE;
-        }
-
         // Get agents from options or prompt interactively
         $selectedAgents = $this->getSelectedAgents($input, $workingDirectory);
 
@@ -136,16 +128,29 @@ class InstallCommand extends Command
 
     protected function createMushStructure(string $mushPath): void
     {
-        // Create directories
-        mkdir($mushPath, 0755, true);
-        mkdir($mushPath.'/guidelines', 0755, true);
-        mkdir($mushPath.'/skills', 0755, true);
+        if (! is_dir($mushPath)) {
+            mkdir($mushPath, 0755, true);
+        }
+
+        if (! is_dir($mushPath.'/guidelines')) {
+            mkdir($mushPath.'/guidelines', 0755, true);
+        }
+
+        if (! is_dir($mushPath.'/skills')) {
+            mkdir($mushPath.'/skills', 0755, true);
+        }
 
         // Create .gitignore files to prevent accidental commits of source files
         // but keep the directories
         $gitignoreContent = "*\n!.gitignore\n";
-        file_put_contents($mushPath.'/guidelines/.gitignore', $gitignoreContent);
-        file_put_contents($mushPath.'/skills/.gitignore', $gitignoreContent);
+
+        if (! file_exists($mushPath.'/guidelines/.gitignore')) {
+            file_put_contents($mushPath.'/guidelines/.gitignore', $gitignoreContent);
+        }
+
+        if (! file_exists($mushPath.'/skills/.gitignore')) {
+            file_put_contents($mushPath.'/skills/.gitignore', $gitignoreContent);
+        }
     }
 
     protected function writeMcpTemplate(string $mushPath): void

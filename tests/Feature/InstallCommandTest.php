@@ -36,19 +36,6 @@ it('initializes a mush project correctly', function () {
     expect("{$this->artifactPath}/.claude/mcp.json")->toBeFile();
 });
 
-it('fails if mush is already initialized', function () {
-    // Create existing .mush directory
-    mkdir("{$this->artifactPath}/.mush", 0777, true);
-
-    $command = new InstallCommand;
-    $command->setApplication(App::build());
-
-    TestCommand::for($command)
-        ->execute("--working-dir={$this->artifactPath} --claude")
-        ->assertStatusCode(1)
-        ->assertOutputContains('already initialized');
-});
-
 it('supports multiple agents via options', function () {
     $command = new InstallCommand;
     $command->setApplication(App::build());
