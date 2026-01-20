@@ -161,10 +161,12 @@ class InstallCommand extends Command
             ],
         ];
 
-        file_put_contents(
-            $mushPath.'/mcp.json',
-            json_encode($template, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)."\n"
-        );
+        if (! file_exists($mushPath.'/mcp.json')) {
+            file_put_contents(
+                $mushPath.'/mcp.json',
+                json_encode($template, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)."\n"
+            );
+        }
     }
 
     /**
