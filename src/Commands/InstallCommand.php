@@ -68,14 +68,18 @@ class InstallCommand extends Command
         $writtenPaths = [];
 
         foreach ($agents as $agent) {
-            $agent->writeGuidelines($content);
-            $agent->writeSkills($skills);
-            $agent->writeMcpConfig($mcpConfig);
+            $agent->guidelines()?->write($content);
+            $agent->skills()?->write($skills);
+            $agent->mcp()?->write($mcpConfig);
 
-            $writtenPaths[] = $agent->guidelinesPath();
-            $writtenPaths[] = $agent->skillsPath();
-            if ($agent->mcpPath() !== '') {
-                $writtenPaths[] = $agent->mcpPath();
+            if ($agent->guidelines() !== null) {
+                $writtenPaths[] = $agent->guidelines()->path();
+            }
+            if ($agent->skills() !== null) {
+                $writtenPaths[] = $agent->skills()->path();
+            }
+            if ($agent->mcp() !== null) {
+                $writtenPaths[] = $agent->mcp()->path();
             }
         }
 

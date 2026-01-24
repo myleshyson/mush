@@ -2,10 +2,19 @@
 
 namespace Myleshyson\Mush\Agents;
 
+use Myleshyson\Mush\Agents\Concerns\HasWorkingDirectory;
 use Myleshyson\Mush\Contracts\AgentInterface;
+use Myleshyson\Mush\Contracts\AgentsSupport;
+use Myleshyson\Mush\Contracts\CommandsSupport;
+use Myleshyson\Mush\Contracts\GuidelinesSupport;
+use Myleshyson\Mush\Contracts\McpSupport;
+use Myleshyson\Mush\Contracts\SkillsSupport;
+use Myleshyson\Mush\Enums\Feature;
 
 abstract class BaseAgent implements AgentInterface
 {
+    use HasWorkingDirectory;
+
     public function __construct(
         protected string $workingDirectory
     ) {}
@@ -18,12 +27,6 @@ abstract class BaseAgent implements AgentInterface
 
     abstract public function name(): string;
 
-    abstract public function guidelinesPath(): string;
-
-    abstract public function skillsPath(): string;
-
-    abstract public function mcpPath(): string;
-
     /**
      * Get the paths that indicate this agent is present.
      * Override in subclasses to customize detection.
@@ -32,10 +35,16 @@ abstract class BaseAgent implements AgentInterface
      */
     public function detectionPaths(): array
     {
-        return [
-            $this->guidelinesPath(),
-            $this->mcpPath(),
-        ];
+        $paths = [];
+
+        if ($this->guidelines() !== null) {
+            $paths[] = $this->guidelines()->path();
+        }
+        if ($this->mcp() !== null) {
+            $paths[] = $this->mcp()->path();
+        }
+
+        return $paths;
     }
 
     /**
@@ -54,111 +63,56 @@ abstract class BaseAgent implements AgentInterface
     }
 
     /**
-     * Get the full path for a relative path.
+     * Check if this agent supports a specific feature.
      */
-    protected function fullPath(string $relativePath): string
+    public function supports(Feature $feature): bool
     {
-        return rtrim($this->workingDirectory, '/').'/'.ltrim($relativePath, '/');
+        return match ($feature) {
+            Feature::Guidelines => $this->guidelines() !== null,
+            Feature::Skills => $this->skills() !== null,
+            Feature::Mcp => $this->mcp() !== null,
+            Feature::Agents => $this->agents() !== null,
+            Feature::Commands => $this->commands() !== null,
+        };
     }
 
     /**
-     * Ensure a directory exists, creating it if necessary.
+     * Get guidelines support. Override in subclasses.
      */
-    protected function ensureDirectoryExists(string $path): void
+    public function guidelines(): ?GuidelinesSupport
     {
-        $dir = str_ends_with($path, '/') ? $path : dirname($path);
-        if (! is_dir($dir)) {
-            mkdir($dir, 0755, true);
-        }
-    }
-
-    public function writeGuidelines(string $content): void
-    {
-        $path = $this->fullPath($this->guidelinesPath());
-        $this->ensureDirectoryExists($path);
-        file_put_contents($path, $content);
-    }
-
-    public function writeSkills(array $skills): void
-    {
-        $basePath = $this->fullPath($this->skillsPath());
-        $this->ensureDirectoryExists($basePath);
-
-        foreach ($skills as $skillName => $skillData) {
-            // Each skill is a subdirectory containing a SKILL.md file
-            $skillDir = rtrim($basePath, '/').'/'.$skillName;
-            if (! is_dir($skillDir)) {
-                mkdir($skillDir, 0755, true);
-            }
-            $skillPath = $skillDir.'/SKILL.md';
-
-            $content = $this->reconstructSkillContent($skillData);
-            file_put_contents($skillPath, $content);
-        }
+        return null;
     }
 
     /**
-     * Reconstruct the full SKILL.md content from parsed skill data.
-     *
-     * @param  array{name: string, description: string, content: string}  $skillData
+     * Get skills support. Override in subclasses.
      */
-    protected function reconstructSkillContent(array $skillData): string
+    public function skills(): ?SkillsSupport
     {
-        $output = "---\n";
-        $output .= "name: {$skillData['name']}\n";
-        if ($skillData['description'] !== '') {
-            $output .= "description: {$skillData['description']}\n";
-        }
-        $output .= "---\n\n";
-        $output .= $skillData['content'];
-
-        return $output;
-    }
-
-    public function writeMcpConfig(array $servers): void
-    {
-        // Skip if MCP is not supported for this agent
-        if ($this->mcpPath() === '') {
-            return;
-        }
-
-        $path = $this->fullPath($this->mcpPath());
-        $this->ensureDirectoryExists($path);
-
-        // Load existing config if present
-        $existingConfig = [];
-        if (file_exists($path)) {
-            $content = file_get_contents($path);
-            if ($content !== false) {
-                $decoded = json_decode($content, true);
-                $existingConfig = is_array($decoded) ? $decoded : [];
-            }
-        }
-
-        // Transform servers to agent-specific format and merge
-        $transformed = $this->transformMcpConfig($servers);
-        $merged = $this->mergeMcpConfig($existingConfig, $transformed);
-
-        file_put_contents($path, json_encode($merged, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)."\n");
+        return null;
     }
 
     /**
-     * Transform the source MCP config to the agent-specific format.
-     *
-     * @param  array<string, mixed>  $servers
-     * @return array<string, mixed>
+     * Get MCP support. Override in subclasses.
      */
-    abstract protected function transformMcpConfig(array $servers): array;
+    public function mcp(): ?McpSupport
+    {
+        return null;
+    }
 
     /**
-     * Merge existing config with new MCP config.
-     *
-     * @param  array<string, mixed>  $existing
-     * @param  array<string, mixed>  $new
-     * @return array<string, mixed>
+     * Get agents support. Override in subclasses.
      */
-    protected function mergeMcpConfig(array $existing, array $new): array
+    public function agents(): ?AgentsSupport
     {
-        return array_replace_recursive($existing, $new);
+        return null;
+    }
+
+    /**
+     * Get commands support. Override in subclasses.
+     */
+    public function commands(): ?CommandsSupport
+    {
+        return null;
     }
 }

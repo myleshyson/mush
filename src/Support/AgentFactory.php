@@ -2,13 +2,13 @@
 
 namespace Myleshyson\Mush\Support;
 
-use Myleshyson\Mush\Agents\ClaudeCode;
-use Myleshyson\Mush\Agents\Codex;
-use Myleshyson\Mush\Agents\Copilot;
-use Myleshyson\Mush\Agents\Cursor;
-use Myleshyson\Mush\Agents\Gemini;
-use Myleshyson\Mush\Agents\Junie;
-use Myleshyson\Mush\Agents\OpenCode;
+use Myleshyson\Mush\Agents\Claude\Claude;
+use Myleshyson\Mush\Agents\Codex\Codex;
+use Myleshyson\Mush\Agents\Copilot\Copilot;
+use Myleshyson\Mush\Agents\Cursor\Cursor;
+use Myleshyson\Mush\Agents\Gemini\Gemini;
+use Myleshyson\Mush\Agents\Junie\Junie;
+use Myleshyson\Mush\Agents\OpenCode\OpenCode;
 use Myleshyson\Mush\Contracts\AgentInterface;
 
 class AgentFactory
@@ -20,7 +20,7 @@ class AgentFactory
      * @var array<class-string<AgentInterface>>
      */
     private static array $agents = [
-        ClaudeCode::class,
+        Claude::class,
         OpenCode::class,
         Junie::class,
         Gemini::class,
