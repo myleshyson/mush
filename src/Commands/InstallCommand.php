@@ -93,8 +93,10 @@ class InstallCommand extends Command
         $output->writeln('Next steps:');
         $output->writeln('  1. Add guideline markdown files to <comment>.mush/guidelines/</comment>');
         $output->writeln('  2. Add skills as subdirectories with SKILL.md to <comment>.mush/skills/</comment>');
-        $output->writeln('  3. Configure MCP servers in <comment>.mush/mcp.json</comment>');
-        $output->writeln('  4. Run <comment>mush update</comment> to sync changes');
+        $output->writeln('  3. Add custom agents as markdown files to <comment>.mush/agents/</comment>');
+        $output->writeln('  4. Add slash commands as markdown files to <comment>.mush/commands/</comment>');
+        $output->writeln('  5. Configure MCP servers in <comment>.mush/mcp.json</comment>');
+        $output->writeln('  6. Run <comment>mush update</comment> to sync changes');
 
         return Command::SUCCESS;
     }
@@ -124,6 +126,7 @@ class InstallCommand extends Command
         $selected = multiselect(
             label: 'Which agents would you like to support?',
             options: AgentFactory::promptOptions($workingDirectory),
+            default: ['claude', 'opencode', 'copilot'],
             required: true,
         );
 
@@ -136,24 +139,22 @@ class InstallCommand extends Command
             mkdir($mushPath, 0755, true);
         }
 
-        if (! is_dir($mushPath.'/guidelines')) {
-            mkdir($mushPath.'/guidelines', 0755, true);
-        }
+        $directories = ['guidelines', 'skills', 'agents', 'commands'];
 
-        if (! is_dir($mushPath.'/skills')) {
-            mkdir($mushPath.'/skills', 0755, true);
+        foreach ($directories as $dir) {
+            if (! is_dir($mushPath.'/'.$dir)) {
+                mkdir($mushPath.'/'.$dir, 0755, true);
+            }
         }
 
         // Create .gitignore files to prevent accidental commits of source files
         // but keep the directories
         $gitignoreContent = "*\n!.gitignore\n";
 
-        if (! file_exists($mushPath.'/guidelines/.gitignore')) {
-            file_put_contents($mushPath.'/guidelines/.gitignore', $gitignoreContent);
-        }
-
-        if (! file_exists($mushPath.'/skills/.gitignore')) {
-            file_put_contents($mushPath.'/skills/.gitignore', $gitignoreContent);
+        foreach ($directories as $dir) {
+            if (! file_exists($mushPath.'/'.$dir.'/.gitignore')) {
+                file_put_contents($mushPath.'/'.$dir.'/.gitignore', $gitignoreContent);
+            }
         }
     }
 
