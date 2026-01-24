@@ -1,12 +1,12 @@
 <?php
 
-use Myleshyson\Mush\Agents\ClaudeCode;
-use Myleshyson\Mush\Agents\Codex;
-use Myleshyson\Mush\Agents\Copilot;
-use Myleshyson\Mush\Agents\Cursor;
-use Myleshyson\Mush\Agents\Gemini;
-use Myleshyson\Mush\Agents\Junie;
-use Myleshyson\Mush\Agents\OpenCode;
+use Myleshyson\Mush\Agents\Claude\Claude;
+use Myleshyson\Mush\Agents\Codex\Codex;
+use Myleshyson\Mush\Agents\Copilot\Copilot;
+use Myleshyson\Mush\Agents\Cursor\Cursor;
+use Myleshyson\Mush\Agents\Gemini\Gemini;
+use Myleshyson\Mush\Agents\Junie\Junie;
+use Myleshyson\Mush\Agents\OpenCode\OpenCode;
 use Myleshyson\Mush\Support\AgentFactory;
 
 beforeEach(function () {
@@ -26,7 +26,7 @@ describe('AgentFactory', function () {
 
             expect($classes)->toBeArray();
             expect($classes)->toHaveCount(7);
-            expect($classes)->toContain(ClaudeCode::class);
+            expect($classes)->toContain(Claude::class);
             expect($classes)->toContain(OpenCode::class);
             expect($classes)->toContain(Junie::class);
             expect($classes)->toContain(Gemini::class);
@@ -42,7 +42,7 @@ describe('AgentFactory', function () {
 
             expect($map)->toBeArray();
             expect($map)->toHaveCount(7);
-            expect($map['claude'])->toBe(ClaudeCode::class);
+            expect($map['claude'])->toBe(Claude::class);
             expect($map['opencode'])->toBe(OpenCode::class);
             expect($map['junie'])->toBe(Junie::class);
             expect($map['gemini'])->toBe(Gemini::class);
@@ -71,7 +71,7 @@ describe('AgentFactory', function () {
     describe('fromOptionName()', function () {
         it('creates agent instance from option name', function () {
             $agent = AgentFactory::fromOptionName('claude', $this->artifactPath);
-            expect($agent)->toBeInstanceOf(ClaudeCode::class);
+            expect($agent)->toBeInstanceOf(Claude::class);
 
             $agent = AgentFactory::fromOptionName('cursor', $this->artifactPath);
             expect($agent)->toBeInstanceOf(Cursor::class);
@@ -88,7 +88,7 @@ describe('AgentFactory', function () {
             $agents = AgentFactory::fromOptionNames(['claude', 'cursor', 'opencode'], $this->artifactPath);
 
             expect($agents)->toHaveCount(3);
-            expect($agents[0])->toBeInstanceOf(ClaudeCode::class);
+            expect($agents[0])->toBeInstanceOf(Claude::class);
             expect($agents[1])->toBeInstanceOf(Cursor::class);
             expect($agents[2])->toBeInstanceOf(OpenCode::class);
         });
@@ -126,8 +126,8 @@ describe('AgentFactory', function () {
 });
 
 describe('Agent optionName() static method', function () {
-    it('ClaudeCode returns claude', function () {
-        expect(ClaudeCode::optionName())->toBe('claude');
+    it('Claude returns claude', function () {
+        expect(Claude::optionName())->toBe('claude');
     });
 
     it('OpenCode returns opencode', function () {

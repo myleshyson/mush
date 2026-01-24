@@ -2,20 +2,21 @@ vendor
 .idea
 builds/
 
-# Fusion generated files
+# MUSH GENERATED FILES
 /.claude/CLAUDE.md
 /.claude/skills/
 /.claude/mcp.json
-
-# Fusion generated files
+/.claude/agents/
+/.claude/commands/
 /AGENTS.md
 /.opencode/skills/
 /opencode.json
+/.opencode/agents/
+/.opencode/commands/
 /.github/copilot-instructions.md
 /.github/skills/
 /.vscode/mcp.json
-/AGENTS.md
-/.codex/skills/
-
-# Fusion generated files
+/.github/agents/
+/.github/prompts/
 /.mush/mcp.override.json
+# END MUSH GENERATED FILES

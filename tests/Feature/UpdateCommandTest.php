@@ -303,3 +303,123 @@ it('handles absolute paths for custom paths', function () {
 
     expect($absolutePath)->toBeFile();
 });
+
+it('accepts custom agents path', function () {
+    // Set up .mush directory
+    $mushPath = "{$this->artifactPath}/.mush";
+    mkdir($mushPath, 0777, true);
+    mkdir("{$mushPath}/guidelines", 0777, true);
+    mkdir("{$mushPath}/skills", 0777, true);
+    mkdir("{$mushPath}/agents", 0777, true);
+    file_put_contents("{$mushPath}/mcp.json", json_encode(['servers' => []]));
+
+    // Write an agent
+    $agentContent = <<<'AGENT'
+---
+name: Code Reviewer
+description: Reviews code for quality
+---
+
+# Instructions
+
+You are a code reviewer.
+AGENT;
+    file_put_contents("{$mushPath}/agents/code-reviewer.md", $agentContent);
+
+    // Create an existing Cursor config file to trigger detection
+    file_put_contents("{$this->artifactPath}/.cursorrules", '# Placeholder');
+
+    $command = new UpdateCommand;
+    $command->setApplication(App::build());
+
+    TestCommand::for($command)
+        ->execute("--working-dir={$this->artifactPath} --agents-path=./custom/agents/")
+        ->assertSuccessful()
+        ->assertOutputContains('custom agents path');
+
+    // Verify agent was written to custom path
+    expect("{$this->artifactPath}/custom/agents/code-reviewer.md")->toBeFile();
+    $content = file_get_contents("{$this->artifactPath}/custom/agents/code-reviewer.md");
+    expect($content)->toContain('name: Code Reviewer');
+    expect($content)->toContain('You are a code reviewer.');
+});
+
+it('accepts custom commands path', function () {
+    // Set up .mush directory
+    $mushPath = "{$this->artifactPath}/.mush";
+    mkdir($mushPath, 0777, true);
+    mkdir("{$mushPath}/guidelines", 0777, true);
+    mkdir("{$mushPath}/skills", 0777, true);
+    mkdir("{$mushPath}/commands", 0777, true);
+    file_put_contents("{$mushPath}/mcp.json", json_encode(['servers' => []]));
+
+    // Write a command
+    $commandContent = <<<'COMMAND'
+---
+description: Deploys the application
+---
+
+# Deploy Command
+
+Run the deploy script.
+COMMAND;
+    file_put_contents("{$mushPath}/commands/deploy.md", $commandContent);
+
+    // Create an existing Cursor config file to trigger detection
+    file_put_contents("{$this->artifactPath}/.cursorrules", '# Placeholder');
+
+    $command = new UpdateCommand;
+    $command->setApplication(App::build());
+
+    TestCommand::for($command)
+        ->execute("--working-dir={$this->artifactPath} --commands-path=./custom/commands/")
+        ->assertSuccessful()
+        ->assertOutputContains('custom commands path');
+
+    // Verify command was written to custom path
+    expect("{$this->artifactPath}/custom/commands/deploy.md")->toBeFile();
+    $content = file_get_contents("{$this->artifactPath}/custom/commands/deploy.md");
+    expect($content)->toContain('Deploys the application');
+    expect($content)->toContain('Run the deploy script.');
+});
+
+it('writes agents and commands to detected agent paths', function () {
+    // Set up .mush directory
+    $mushPath = "{$this->artifactPath}/.mush";
+    mkdir($mushPath, 0777, true);
+    mkdir("{$mushPath}/guidelines", 0777, true);
+    mkdir("{$mushPath}/skills", 0777, true);
+    mkdir("{$mushPath}/agents", 0777, true);
+    mkdir("{$mushPath}/commands", 0777, true);
+    file_put_contents("{$mushPath}/mcp.json", json_encode(['servers' => []]));
+
+    // Write an agent
+    file_put_contents("{$mushPath}/agents/reviewer.md", "---\nname: Reviewer\ndescription: Reviews code\n---\n\n# Review Instructions");
+
+    // Write a command
+    file_put_contents("{$mushPath}/commands/test.md", "---\ndescription: Runs tests\n---\n\n# Test Instructions");
+
+    // Create Claude Code config to trigger detection (supports both agents and commands)
+    mkdir("{$this->artifactPath}/.claude", 0777, true);
+    file_put_contents("{$this->artifactPath}/.claude/CLAUDE.md", '# Placeholder');
+
+    $command = new UpdateCommand;
+    $command->setApplication(App::build());
+
+    TestCommand::for($command)
+        ->execute("--working-dir={$this->artifactPath}")
+        ->assertSuccessful()
+        ->assertOutputContains('Updated Claude Code');
+
+    // Verify agents were written
+    expect("{$this->artifactPath}/.claude/agents/reviewer.md")->toBeFile();
+    $agentContent = file_get_contents("{$this->artifactPath}/.claude/agents/reviewer.md");
+    expect($agentContent)->toContain('name: Reviewer');
+    expect($agentContent)->toContain('# Review Instructions');
+
+    // Verify commands were written
+    expect("{$this->artifactPath}/.claude/commands/test.md")->toBeFile();
+    $cmdContent = file_get_contents("{$this->artifactPath}/.claude/commands/test.md");
+    expect($cmdContent)->toContain('description: Runs tests');
+    expect($cmdContent)->toContain('# Test Instructions');
+});

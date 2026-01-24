@@ -2,6 +2,8 @@
 
 namespace Myleshyson\Mush\Commands;
 
+use Myleshyson\Mush\Compilers\AgentsCompiler;
+use Myleshyson\Mush\Compilers\CommandsCompiler;
 use Myleshyson\Mush\Compilers\GuidelinesCompiler;
 use Myleshyson\Mush\Compilers\SkillsCompiler;
 use Myleshyson\Mush\Support\AgentFactory;
@@ -39,6 +41,18 @@ class UpdateCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'Additional paths to write MCP config (can be specified multiple times)'
+            )
+            ->addOption(
+                'agents-path',
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'Additional paths to write agents (can be specified multiple times)'
+            )
+            ->addOption(
+                'commands-path',
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                'Additional paths to write commands (can be specified multiple times)'
             );
     }
 
@@ -66,12 +80,16 @@ class UpdateCommand extends Command
             return Command::FAILURE;
         }
 
-        // Compile guidelines and skills
+        // Compile guidelines, skills, agents, and commands
         $guidelinesCompiler = new GuidelinesCompiler;
         $skillsCompiler = new SkillsCompiler;
+        $agentsCompiler = new AgentsCompiler;
+        $commandsCompiler = new CommandsCompiler;
 
         $guidelines = $guidelinesCompiler->compile($mushPath.'/guidelines');
         $skills = $skillsCompiler->compile($mushPath.'/skills');
+        $compiledAgents = $agentsCompiler->compile($mushPath.'/agents');
+        $compiledCommands = $commandsCompiler->compile($mushPath.'/commands');
 
         // Format output content
         $content = $this->formatOutput($guidelines, $skills);
@@ -83,14 +101,26 @@ class UpdateCommand extends Command
         $writtenPaths = [];
 
         foreach ($agents as $agent) {
-            $agent->writeGuidelines($content);
-            $agent->writeSkills($skills);
-            $agent->writeMcpConfig($mcpConfig);
+            $agent->guidelines()?->write($content);
+            $agent->skills()?->write($skills);
+            $agent->mcp()?->write($mcpConfig);
+            $agent->agents()?->write($compiledAgents);
+            $agent->commands()?->write($compiledCommands);
 
-            $writtenPaths[] = $agent->guidelinesPath();
-            $writtenPaths[] = $agent->skillsPath();
-            if ($agent->mcpPath() !== '') {
-                $writtenPaths[] = $agent->mcpPath();
+            if ($agent->guidelines() !== null) {
+                $writtenPaths[] = $agent->guidelines()->path();
+            }
+            if ($agent->skills() !== null) {
+                $writtenPaths[] = $agent->skills()->path();
+            }
+            if ($agent->mcp() !== null) {
+                $writtenPaths[] = $agent->mcp()->path();
+            }
+            if ($agent->agents() !== null) {
+                $writtenPaths[] = $agent->agents()->path();
+            }
+            if ($agent->commands() !== null) {
+                $writtenPaths[] = $agent->commands()->path();
             }
 
             $output->writeln("  Updated <info>{$agent->name()}</info>");
@@ -103,6 +133,10 @@ class UpdateCommand extends Command
         $customSkillPaths = $input->getOption('skill-path');
         /** @var string[] $customMcpPaths */
         $customMcpPaths = $input->getOption('mcp-path');
+        /** @var string[] $customAgentsPaths */
+        $customAgentsPaths = $input->getOption('agents-path');
+        /** @var string[] $customCommandsPaths */
+        $customCommandsPaths = $input->getOption('commands-path');
 
         foreach ($customGuidelinePaths as $path) {
             $this->writeCustomGuidelines($workingDirectory, $path, $content);
@@ -120,6 +154,18 @@ class UpdateCommand extends Command
             $this->writeCustomMcp($workingDirectory, $path, $mcpConfig);
             $writtenPaths[] = $path;
             $output->writeln("  Updated custom MCP path: <info>{$path}</info>");
+        }
+
+        foreach ($customAgentsPaths as $path) {
+            $this->writeCustomAgents($workingDirectory, $path, $compiledAgents);
+            $writtenPaths[] = $path;
+            $output->writeln("  Updated custom agents path: <info>{$path}</info>");
+        }
+
+        foreach ($customCommandsPaths as $path) {
+            $this->writeCustomCommands($workingDirectory, $path, $compiledCommands);
+            $writtenPaths[] = $path;
+            $output->writeln("  Updated custom commands path: <info>{$path}</info>");
         }
 
         // Update .gitignore
@@ -272,5 +318,70 @@ class UpdateCommand extends Command
         if (! is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
+    }
+
+    /**
+     * @param  array<string, array{name: string, description: string, content: string}>  $agents
+     */
+    protected function writeCustomAgents(string $workingDirectory, string $path, array $agents): void
+    {
+        $basePath = $this->resolvePath($workingDirectory, $path);
+        $this->ensureDirectoryExists($basePath.'/');
+
+        foreach ($agents as $agentName => $agentData) {
+            $agentPath = rtrim($basePath, '/').'/'.$agentName.'.md';
+            $content = $this->reconstructAgentContent($agentData);
+            file_put_contents($agentPath, $content);
+        }
+    }
+
+    /**
+     * Reconstruct the full agent content from parsed agent data.
+     *
+     * @param  array{name: string, description: string, content: string}  $agentData
+     */
+    protected function reconstructAgentContent(array $agentData): string
+    {
+        $output = "---\n";
+        $output .= "name: {$agentData['name']}\n";
+        if ($agentData['description'] !== '') {
+            $output .= "description: {$agentData['description']}\n";
+        }
+        $output .= "---\n\n";
+        $output .= $agentData['content'];
+
+        return $output;
+    }
+
+    /**
+     * @param  array<string, array{name: string, description: string, content: string}>  $commands
+     */
+    protected function writeCustomCommands(string $workingDirectory, string $path, array $commands): void
+    {
+        $basePath = $this->resolvePath($workingDirectory, $path);
+        $this->ensureDirectoryExists($basePath.'/');
+
+        foreach ($commands as $commandName => $commandData) {
+            $commandPath = rtrim($basePath, '/').'/'.$commandName.'.md';
+            $content = $this->reconstructCommandContent($commandData);
+            file_put_contents($commandPath, $content);
+        }
+    }
+
+    /**
+     * Reconstruct the full command content from parsed command data.
+     *
+     * @param  array{name: string, description: string, content: string}  $commandData
+     */
+    protected function reconstructCommandContent(array $commandData): string
+    {
+        $output = "---\n";
+        if ($commandData['description'] !== '') {
+            $output .= "description: {$commandData['description']}\n";
+        }
+        $output .= "---\n\n";
+        $output .= $commandData['content'];
+
+        return $output;
     }
 }

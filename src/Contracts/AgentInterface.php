@@ -2,6 +2,8 @@
 
 namespace Myleshyson\Mush\Contracts;
 
+use Myleshyson\Mush\Enums\Feature;
+
 interface AgentInterface
 {
     /**
@@ -29,38 +31,32 @@ interface AgentInterface
     public function detectionPaths(): array;
 
     /**
-     * Get the path where guidelines should be written.
+     * Check if this agent supports a specific feature.
      */
-    public function guidelinesPath(): string;
+    public function supports(Feature $feature): bool;
 
     /**
-     * Get the path where skills should be written.
+     * Get guidelines support, or null if not supported.
      */
-    public function skillsPath(): string;
+    public function guidelines(): ?GuidelinesSupport;
 
     /**
-     * Get the path where MCP config should be written.
-     * Return empty string if MCP is not supported for this agent.
+     * Get skills support, or null if not supported.
      */
-    public function mcpPath(): string;
+    public function skills(): ?SkillsSupport;
 
     /**
-     * Write compiled guidelines content to the agent's guidelines path.
+     * Get MCP support, or null if not supported.
      */
-    public function writeGuidelines(string $content): void;
+    public function mcp(): ?McpSupport;
 
     /**
-     * Write skills to the agent's skills path.
-     *
-     * @param  array<string, array{name: string, description: string, content: string}>  $skills  Map of skill-name => skill data
+     * Get agents support, or null if not supported.
      */
-    public function writeSkills(array $skills): void;
+    public function agents(): ?AgentsSupport;
 
     /**
-     * Write MCP configuration to the agent's MCP path.
-     * This should merge with existing config if present.
-     *
-     * @param  array<string, mixed>  $servers  The MCP servers configuration
+     * Get commands support, or null if not supported.
      */
-    public function writeMcpConfig(array $servers): void;
+    public function commands(): ?CommandsSupport;
 }
