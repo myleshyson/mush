@@ -12,7 +12,7 @@
  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀ 
 ```
 
-A CLI tool that syncs AI agent configurations across your team. Define guidelines, skills, and MCP servers once in
+A CLI tool that syncs AI agent configurations across your team. Define guidelines, skills, custom agents, slash commands, and MCP servers once in
 `.mush/` and automatically sync them to Claude Code, Cursor, Copilot, Gemini, OpenCode, Codex, and Junie.
 
 ## Installation
@@ -79,6 +79,8 @@ This creates a `.mush/` directory with:
 .mush/
 ├── guidelines/     # Shared guidelines (markdown files)
 ├── skills/         # Reusable skills (subdirectories with SKILL.md)
+├── agents/         # Custom agents (markdown files)
+├── commands/       # Slash commands (markdown files)
 └── mcp.json        # MCP server configurations
 ```
 
@@ -176,6 +178,50 @@ Configure MCP (Model Context Protocol) servers in `.mush/mcp.json`:
 
 Mush transforms this configuration to each agent's expected format.
 
+### Custom Agents
+
+Custom agents are specialized personas that can be invoked during conversations. Create markdown files in `.mush/agents/`:
+
+```markdown
+<!-- .mush/agents/security-reviewer.md -->
+---
+name: security-reviewer
+description: Reviews code for security vulnerabilities and best practices
+---
+
+# Security Reviewer
+
+You are a security expert. When reviewing code:
+
+- Check for injection vulnerabilities (SQL, XSS, command injection)
+- Verify authentication and authorization logic
+- Look for sensitive data exposure
+- Ensure proper input validation
+```
+
+The `name` field is the identifier used to invoke the agent, and `description` helps users understand when to use it.
+
+### Slash Commands
+
+Slash commands are reusable prompts that can be invoked with a `/` prefix. Create markdown files in `.mush/commands/`:
+
+```markdown
+<!-- .mush/commands/review.md -->
+---
+name: review
+description: Review code for quality and best practices
+---
+
+Please review the selected code for:
+
+1. Code quality and readability
+2. Potential bugs or edge cases
+3. Performance considerations
+4. Adherence to project conventions
+```
+
+Commands provide a quick way to run common prompts without retyping them.
+
 ### Local Overrides
 
 For personal MCP servers that shouldn't be committed (local databases, personal API tokens), create `.mush/mcp.override.json`:
@@ -243,21 +289,27 @@ mush update
 mush update --guideline-path=./custom/RULES.md
 mush update --skill-path=./custom/skills/
 mush update --mcp-path=./custom/mcp.json
+mush update --agents-path=./custom/agents/
+mush update --commands-path=./custom/commands/
 ```
 
 ## Supported Agents
 
-| Agent          | Guidelines                        | Skills              | MCP                     |
-|----------------|-----------------------------------|---------------------|-------------------------|
-| Claude Code    | `.claude/CLAUDE.md`               | `.claude/skills/`   | `.claude/mcp.json`      |
-| Cursor         | `.cursor/rules/mush.mdc`          | `.cursor/skills/`   | `.cursor/mcp.json`      |
-| GitHub Copilot | `.github/copilot-instructions.md` | `.github/skills/`   | `.vscode/mcp.json`      |
-| Gemini         | `GEMINI.md`                       | `.gemini/skills/`   | `.gemini/settings.json` |
-| OpenCode       | `AGENTS.md`                       | `.opencode/skills/` | `opencode.json`         |
-| OpenAI Codex   | `AGENTS.md`                       | `.codex/skills/`    | -\*                     |
-| Junie          | `.junie/guidelines.md`            | `.junie/skills/`    | `.junie/mcp/mcp.json`   |
+| Agent          | Guidelines                        | Skills              | MCP                     | Agents                | Commands                     |
+|----------------|-----------------------------------|---------------------|-------------------------|-----------------------|------------------------------|
+| Claude Code    | `.claude/CLAUDE.md`               | `.claude/skills/`   | `.claude/mcp.json`      | `.claude/agents/`     | `.claude/commands/`          |
+| Cursor         | `.cursor/rules/mush.mdc`          | `.cursor/skills/`   | `.cursor/mcp.json`      | —                     | `.cursor/commands/`          |
+| GitHub Copilot | `.github/copilot-instructions.md` | `.github/skills/`   | `.vscode/mcp.json`      | `.github/agents/`     | `.github/prompts/`\*\*       |
+| Gemini         | `GEMINI.md`                       | `.gemini/skills/`   | `.gemini/settings.json` | —                     | `.gemini/commands/`\*\*\*    |
+| OpenCode       | `AGENTS.md`                       | `.opencode/skills/` | `opencode.json`         | `.opencode/agents/`   | `.opencode/commands/`        |
+| OpenAI Codex   | `AGENTS.md`                       | `.codex/skills/`    | —\*                     | —                     | —                            |
+| Junie          | `.junie/guidelines.md`            | `.junie/skills/`    | `.junie/mcp/mcp.json`   | —                     | `.junie/commands/`           |
 
 \*OpenAI Codex supports MCP via `~/.codex/config.toml`, but only at the global/user level, not per-project. Mush focuses on project-level configuration, so Codex MCP is not currently supported.
+
+\*\*GitHub Copilot uses `.prompt.md` extension for commands.
+
+\*\*\*Gemini uses TOML format for commands.
 
 ## Example Workflow
 
